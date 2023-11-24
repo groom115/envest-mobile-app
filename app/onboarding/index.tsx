@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import OnBoardingItem from "./OnBoardingItem";
-import Paginator from "./Paginator";
-import { data } from "./OnBoardingData";
+import OnBoardingItem from "../../components/OnBoardingItem";
+import Paginator from "../../components/Paginator";
+import { data } from "../../data/OnBoardingData";
 
 interface AppProps {}
 
-const OnBoarding: React.FC<AppProps> = () => {
+const OnBoardingScreen: React.FC<AppProps> = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OnBoarding;
+export default OnBoardingScreen;
