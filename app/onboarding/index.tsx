@@ -10,6 +10,8 @@ import {
 import OnBoardingItem from "../../components/OnBoardingItem";
 import Paginator from "../../components/Paginator";
 import { data } from "../../data/OnBoardingData";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRouter} from 'expo-router'
 
 interface AppProps {}
 
@@ -26,6 +28,14 @@ const OnBoardingScreen: React.FC<AppProps> = () => {
   const viewConfig = useRef({
     viewAreaCoveragePercentThreshold: 50,
   }).current;
+
+  const router=useRouter();
+
+  const onFinishUserOnboarding=async()=>{
+    await AsyncStorage.setItem('user-onboarding','true');
+
+    router.replace('/home');
+  }
   return (
     <View style={styles.container}>
       <View style={{ flex: 3 }}>
@@ -50,7 +60,7 @@ const OnBoardingScreen: React.FC<AppProps> = () => {
       </View>
       <View style={styles.conatiner2}>
         <Paginator data={data} scrollX={scrollX} />
-        <TouchableOpacity style={styles.continueButton}>
+        <TouchableOpacity style={styles.continueButton} onPress={onFinishUserOnboarding}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </View>

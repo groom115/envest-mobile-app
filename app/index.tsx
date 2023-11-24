@@ -20,7 +20,7 @@ const Home = () => {
       }
     })
 
-    if(ifUserOnboarded){
+    if(!ifUserOnboarded){
         return <Redirect href="/onboarding"/>
     }
 }
