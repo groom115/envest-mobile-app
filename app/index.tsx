@@ -23,6 +23,8 @@ const Home = () => {
     if(!ifUserOnboarded){
         return <Redirect href="/onboarding"/>
     }
+
+    return <Redirect href="/register"/>
 }
 
 export default Home
