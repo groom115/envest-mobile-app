@@ -1,0 +1,101 @@
+{
+  "auth": {
+    "envestfrontendmobile90f347cf": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_allowUnauthenticatedIdentities": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_authRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_authRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_identityPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_envestfrontendmobile90f347cf_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "envestfrontendmobile90f347cf"
+        }
+      ]
+    }
+  }
+}
