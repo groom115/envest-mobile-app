@@ -4,32 +4,58 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, Linking, Platform } from 'react-native';
 import { Amplify } from 'aws-amplify';
 import awsConfig from '../aws-exports';
+import * as WebBrowser from "expo-web-browser";
 
-const isLocalhost = false;
+const isLocalhost = Boolean(__DEV__);
 
-const [
-  localRedirectSignIn,
-  productionRedirectSignIn,
-  amplifyRedirectSignIn
-] = awsConfig.oauth.redirectSignIn.split(",");
+const localRedirectURL="exp://127.0.0.1:19000";
+const productionRedirectURL="envest://";
 
-const [
-  localRedirectSignOut,
-  productionRedirectSignOut,
-  amplifyRedirectSignOut
-] = awsConfig.oauth.redirectSignOut.split(",");
+async function urlOpener(url: string, redirectUrl: string): Promise<void> {
+  const authSessionResult = await WebBrowser.openAuthSessionAsync(
+    url,
+    redirectUrl
+  );
+
+  if (authSessionResult.type === "success" && (Platform.OS === "ios" || Platform.OS === "android")) {
+    WebBrowser.dismissBrowser();
+    return Linking.openURL(authSessionResult.url);
+  }
+}
 
 const updatedAwsConfig = {
   ...awsConfig,
   oauth: {
     ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+    redirectSignIn: isLocalhost ? localRedirectURL : productionRedirectURL,
+    redirectSignOut: isLocalhost ? localRedirectURL : productionRedirectURL,
+    urlOpener
   }
 }
+
+// const [
+//   localRedirectSignIn,
+//   productionRedirectSignIn,
+//   amplifyRedirectSignIn
+// ] = awsConfig.oauth.redirectSignIn.split(",");
+
+// const [
+//   localRedirectSignOut,
+//   productionRedirectSignOut,
+//   amplifyRedirectSignOut
+// ] = awsConfig.oauth.redirectSignOut.split(",");
+
+// const updatedAwsConfig = {
+//   ...awsConfig,
+//   oauth: {
+//     ...awsConfig.oauth,
+//     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+//     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+//   }
+// }
 
 Amplify.configure(updatedAwsConfig);
 
