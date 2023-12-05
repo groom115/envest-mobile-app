@@ -1,10 +1,24 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../constants/images";
+import {Auth} from "aws-amplify";
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 
 interface AppProps {}
 
 const RegisterScreen: React.FC<AppProps> = () => {
+
+  const handleGoogleLogin=async()=>{
+    try{
+      const res=await Auth.federatedSignIn({
+        provider: CognitoHostedUIIdentityProvider.Google
+      });
+      return res;
+    } catch(error){
+      console.error(error)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -17,7 +31,7 @@ const RegisterScreen: React.FC<AppProps> = () => {
       </View>
 
       <View style={styles.bottom}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleGoogleLogin}>
           <Image source={images.google} style={styles.image2} alt="" />
           <Text style={styles.text3}>Continue with Google</Text>
         </TouchableOpacity>
