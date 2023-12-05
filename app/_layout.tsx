@@ -36,27 +36,6 @@ const updatedAwsConfig = {
   }
 }
 
-// const [
-//   localRedirectSignIn,
-//   productionRedirectSignIn,
-//   amplifyRedirectSignIn
-// ] = awsConfig.oauth.redirectSignIn.split(",");
-
-// const [
-//   localRedirectSignOut,
-//   productionRedirectSignOut,
-//   amplifyRedirectSignOut
-// ] = awsConfig.oauth.redirectSignOut.split(",");
-
-// const updatedAwsConfig = {
-//   ...awsConfig,
-//   oauth: {
-//     ...awsConfig.oauth,
-//     redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-//     redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
-//   }
-// }
-
 Amplify.configure(updatedAwsConfig);
 
 export {
