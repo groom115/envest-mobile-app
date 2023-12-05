@@ -24,7 +24,13 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "config": {
+        "googleSignIn": {
+          "behavior": "system",
+          "clientId": "507053804224-dvt66inccsp1ah0a75dni5lq5812cohd.apps.googleusercontent.com"
+        }
+      }
     }
   }
 }
