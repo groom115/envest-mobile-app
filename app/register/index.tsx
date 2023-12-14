@@ -8,12 +8,11 @@ interface AppProps {}
 
 const RegisterScreen: React.FC<AppProps> = () => {
 
-  const handleGoogleLogin=async()=>{
+  const handleGoogleLogin=()=>{
     try{
-      const res=await Auth.federatedSignIn({
+      Auth.federatedSignIn({
         provider: CognitoHostedUIIdentityProvider.Google
       });
-      return res;
     } catch(error){
       console.error(error)
     }

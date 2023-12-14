@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "envest-frontend-mobile",
-    "slug": "envest-frontend-mobile",
+    "name": "Envest",
+    "description": "Smartest Crypto Investing Platform",
+    "slug": "envest-crypto-investing",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "envest",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -18,13 +19,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/splash.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/splash.png",
+      "config": {
+        "googleSignIn": {
+          "behavior": "system",
+          "clientId": "507053804224-dvt66inccsp1ah0a75dni5lq5812cohd.apps.googleusercontent.com"
+        }
+      }
     }
   }
 }

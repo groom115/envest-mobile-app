@@ -4,30 +4,35 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, Linking, Platform } from 'react-native';
 import { Amplify } from 'aws-amplify';
 import awsConfig from '../aws-exports';
+import * as WebBrowser from "expo-web-browser";
 
-const isLocalhost = false;
+const isLocalhost = Boolean(__DEV__);
 
-const [
-  localRedirectSignIn,
-  productionRedirectSignIn,
-  amplifyRedirectSignIn
-] = awsConfig.oauth.redirectSignIn.split(",");
+const localRedirectURL="exp://192.168.29.55:19000/";
+const productionRedirectURL="envest://";
 
-const [
-  localRedirectSignOut,
-  productionRedirectSignOut,
-  amplifyRedirectSignOut
-] = awsConfig.oauth.redirectSignOut.split(",");
+async function urlOpener(url: string, redirectUrl: string): Promise<void> {
+  const authSessionResult = await WebBrowser.openAuthSessionAsync(
+    url,
+    redirectUrl
+  );
+
+  if (authSessionResult.type === "success" && (Platform.OS === "ios" || Platform.OS === "android")) {
+    WebBrowser.dismissBrowser();
+    return Linking.openURL(authSessionResult.url);
+  }
+}
 
 const updatedAwsConfig = {
   ...awsConfig,
   oauth: {
     ...awsConfig.oauth,
-    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+    redirectSignIn: isLocalhost ? localRedirectURL : productionRedirectURL,
+    redirectSignOut: isLocalhost ? localRedirectURL : productionRedirectURL,
+    urlOpener
   }
 }
 
@@ -45,7 +50,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Gilroy: require('../assets/fonts/Gilroy-Regular.ttf'),
     ...FontAwesome.font,
   });
 
