@@ -11,7 +11,7 @@ import * as WebBrowser from "expo-web-browser";
 
 const isLocalhost = Boolean(__DEV__);
 
-const localRedirectURL="exp://127.0.0.1:19000";
+const localRedirectURL="exp://192.168.29.55:19000/";
 const productionRedirectURL="envest://";
 
 async function urlOpener(url: string, redirectUrl: string): Promise<void> {
@@ -50,7 +50,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Gilroy: require('../assets/fonts/Gilroy-Regular.ttf'),
     ...FontAwesome.font,
   });
 
