@@ -3,12 +3,15 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../constants/images";
 import {Auth} from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { useRouter } from "expo-router";
 
 interface AppProps {}
 
 const RegisterScreen: React.FC<AppProps> = () => {
 
-  const handleGoogleLogin=()=>{
+  const router=useRouter();
+
+  const handleGoogleLoginClick=()=>{
     try{
       Auth.federatedSignIn({
         provider: CognitoHostedUIIdentityProvider.Google
@@ -16,6 +19,10 @@ const RegisterScreen: React.FC<AppProps> = () => {
     } catch(error){
       console.error(error)
     }
+  }
+
+  const handleEmailLoginClick=()=>{
+    router.push("/login");
   }
 
   return (
@@ -30,9 +37,12 @@ const RegisterScreen: React.FC<AppProps> = () => {
       </View>
 
       <View style={styles.bottom}>
-        <TouchableOpacity style={styles.button} onPress={handleGoogleLogin}>
+        <TouchableOpacity style={styles.button} onPress={handleGoogleLoginClick}>
           <Image source={images.google} style={styles.image2} alt="" />
           <Text style={styles.text3}>Continue with Google</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonSecond} onPress={handleEmailLoginClick}>
+          <Text style={styles.text3}>Continue with Email</Text>
         </TouchableOpacity>
         <Text style={styles.text4}>
           By proceeding, I accept envest’s TnC & privacy policy
@@ -82,7 +92,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingVertical: 12,
     borderRadius: 5,
-
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "row",
+  },
+  buttonSecond: {
+    backgroundColor: "#FFD76F",
+    paddingVertical: 12,
+    borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
     display: "flex",

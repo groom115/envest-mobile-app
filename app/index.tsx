@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {Redirect, useRouter} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Auth, Hub } from 'aws-amplify';
+import { removeAuth, setAuth } from '../global/slices/auth';
+import { removeProfile, setProfile } from '../global/slices/profile';
 
 const Home = () => {
 
@@ -24,18 +26,18 @@ const Home = () => {
       }
     })
 
-  //TODO: Retrieve User from Redux
-  const [user, setUser] = useState(null);
-
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
       switch (event) {
         case "signIn":
+          // setAuth({})
+          console.log(data);
           router.replace("/home");
-          setUser(data);
           break;
         case "signOut":
-          setUser(null);
+          removeAuth();
+          removeProfile();
+          router.replace("/register");
           break;
       }
     });
@@ -48,7 +50,7 @@ const Home = () => {
   const getUser = async (): Promise<void> => {
     try {
       const currentUser = await Auth.currentAuthenticatedUser();
-      setUser(currentUser);
+      // setProfile({})
     } catch(error) {
       console.error(error);
       console.log("Not signed in");
