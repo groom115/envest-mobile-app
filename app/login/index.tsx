@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Auth } from 'aws-amplify'
+import { setAuth } from '../../global/slices/auth'
+import { setProfile } from '../../global/slices/profile'
 
 const LoginScreen = () => {
     const [email,setEmail]=useState('')
@@ -9,6 +11,18 @@ const LoginScreen = () => {
     const handleLoginClick=async()=>{
         try{
             const user=await Auth.signIn(email, password);
+            // setAuth({
+            //     accessToken:
+            // });
+            console.log(user)
+            setProfile({
+                email:user.attributes?.email,
+                emailVerified: user.attributes?.email_verified,
+                userId: user.attributes?.sub,
+                name: user.attributes["custom:name"],
+                kycVerified: user.attributes["custom:kycVerified"],
+                bavVerified: user.attributes["custom:bavVerified"]
+            })
         } catch(error){
             console.error(error)
         }
@@ -43,8 +57,6 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: "space-between",
         backgroundColor: "black",
         paddingVertical: 24,
         paddingHorizontal: 12,
@@ -54,12 +66,18 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         fontSize: 32,
         lineHeight: 44,
+        textAlign: "center",
+        marginTop: '15%'
       },
       input: {
         padding: 4,
         borderColor: "#FFD76F",
         borderWidth: 1,
-        borderRadius: 4
+        borderRadius: 10,
+        height: 50,
+        textAlign: "center",
+        color: "#fff",
+        fontSize: 16
       },
       text3: {
         color: "black",

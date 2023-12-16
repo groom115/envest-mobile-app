@@ -31,7 +31,6 @@ const Home = () => {
       switch (event) {
         case "signIn":
           // setAuth({})
-          console.log(data);
           router.replace("/home");
           break;
         case "signOut":
