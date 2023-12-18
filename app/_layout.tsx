@@ -5,9 +5,11 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme, Linking, Platform } from 'react-native';
-import { Amplify } from 'aws-amplify';
 import awsConfig from '../aws-exports';
 import * as WebBrowser from "expo-web-browser";
+import { Provider } from 'react-redux';
+import store from '../global/store';
+import { Amplify } from 'aws-amplify';
 
 const isLocalhost = Boolean(__DEV__);
 
@@ -72,7 +74,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <>
+    <Provider store={store}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme} >
         <Stack screenOptions={{ headerShown: false }}>
           {/* <Stack.Screen name="onboarding" options={{ headerShown: false }} />
@@ -80,6 +82,6 @@ function RootLayoutNav() {
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} /> */}
         </Stack>
       </ThemeProvider>
-    </>
+    </Provider>
   );
 }

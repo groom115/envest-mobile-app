@@ -4,30 +4,35 @@ import { Auth } from 'aws-amplify'
 import { setAuth } from '../../global/slices/auth'
 import { setProfile } from '../../global/slices/profile'
 import { useRouter } from 'expo-router'
+import { useDispatch } from 'react-redux'
 
 const LoginScreen = () => {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
 
     const router=useRouter();
+    const dispatch=useDispatch();
 
     const handleLoginClick=async()=>{
         try{
             const user=await Auth.signIn(email, password);
-            setAuth({
+            dispatch(
+              setAuth({
                 accessToken: user.signInUserSession.accessToken.jwtToken,
                 refreshToken: user.signInUserSession.refreshToken.jwtToken,
                 idToken: user.signInUserSession.idToken.jwtToken,
                 isValid: true
-            });
-            setProfile({
+            }));
+            dispatch(
+              setProfile({
                 email:user.attributes["email"],
                 emailVerified: user.attributes["email_verified"],
                 userId: user.attributes["sub"],
                 name: user.attributes["custom:name"],
                 kycVerified: user.attributes["custom:kycVerified"],
-                bavVerified: user.attributes["custom:bavVerified"]
-            });
+                bavVerified: user.attributes["custom:bavVerified"],
+                phone: user.attributes["custom:phone"]
+            }));
             router.replace("/home");
         } catch(error){
             console.error(error)
