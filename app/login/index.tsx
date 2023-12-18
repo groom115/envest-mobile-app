@@ -3,26 +3,32 @@ import React, { useState } from 'react'
 import { Auth } from 'aws-amplify'
 import { setAuth } from '../../global/slices/auth'
 import { setProfile } from '../../global/slices/profile'
+import { useRouter } from 'expo-router'
 
 const LoginScreen = () => {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
 
+    const router=useRouter();
+
     const handleLoginClick=async()=>{
         try{
             const user=await Auth.signIn(email, password);
-            // setAuth({
-            //     accessToken:
-            // });
-            console.log(user)
+            setAuth({
+                accessToken: user.signInUserSession.accessToken.jwtToken,
+                refreshToken: user.signInUserSession.refreshToken.jwtToken,
+                idToken: user.signInUserSession.idToken.jwtToken,
+                isValid: true
+            });
             setProfile({
-                email:user.attributes?.email,
-                emailVerified: user.attributes?.email_verified,
-                userId: user.attributes?.sub,
+                email:user.attributes["email"],
+                emailVerified: user.attributes["email_verified"],
+                userId: user.attributes["sub"],
                 name: user.attributes["custom:name"],
                 kycVerified: user.attributes["custom:kycVerified"],
                 bavVerified: user.attributes["custom:bavVerified"]
-            })
+            });
+            router.replace("/home");
         } catch(error){
             console.error(error)
         }
@@ -31,6 +37,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text2}>Login</Text>
+      <View style={styles.formContainer}>
       <TextInput 
       value={email}
       onChangeText={(val)=>setEmail(val)}
@@ -49,6 +56,7 @@ const LoginScreen = () => {
       <TouchableOpacity style={styles.buttonSecond} onPress={handleLoginClick}>
           <Text style={styles.text3}>Submit</Text>
         </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -60,6 +68,9 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         paddingVertical: 24,
         paddingHorizontal: 12,
+      },
+      formContainer:{
+        marginTop:100
       },
     text2: {
         color: "#FFFFFF",
@@ -77,7 +88,8 @@ const styles = StyleSheet.create({
         height: 50,
         textAlign: "center",
         color: "#fff",
-        fontSize: 16
+        fontSize: 16,
+        marginBottom: 20
       },
       text3: {
         color: "black",
