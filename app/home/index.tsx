@@ -1,217 +1,23 @@
 import {
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  Linking,
 } from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import images from "../../constants/images";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import PieChart from "react-native-pie-chart";
-import { Slider } from "@miblanchard/react-native-slider";
+import InvestmentModel from "../../components/HomeScreenComponents/InvestmentModel";
+import PortfolioSelect from "../../components/HomeScreenComponents/PortfolioSelect";
+import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
+import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
 
 interface AppProps {}
 
-const separater = (title: string, sub: string) => {
-  return (
-    <View style={styles.break}>
-      <Text style={styles.text1}>
-        {title} <Text style={{ color: "#FFD76F" }}>{sub}</Text>
-      </Text>
-      <View style={styles.line}></View>
-    </View>
-  );
-};
-const seperaterOp = (title: string, sub: string) => {
-  return (
-    <View style={styles.break}>
-      <Text style={[styles.text1, { color: "#FFD76F" }]}>
-        {title} <Text style={{ color: "#FFFFFF" }}>{sub}</Text>
-      </Text>
-      <View style={styles.line}></View>
-    </View>
-  );
-};
-
-const stockType = (title: string, icon: any, returns: string) => {
-  return (
-    <View style={styles.fund}>
-      <Image
-        source={icon}
-        style={{ width: 46, height: 46, alignSelf: "center" }}
-      />
-      <View
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <View>
-          <Text style={styles.title}>{title}</Text>
-
-          <TouchableOpacity
-            // onPress={handlePress}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 5,
-              marginTop: 25,
-            }}
-          >
-            <Link href={"/bluechip"}>
-              <Text style={styles.fundText3}>
-                Start SIP with <Text style={{ fontWeight: "700" }}>₹50</Text>{" "}
-              </Text>
-
-              <Image
-                source={images.rightIcon}
-                style={{ width: 12, height: 12 }}
-                alt="icon"
-              />
-            </Link>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.fundText1}>{returns}</Text>
-          <Text style={styles.fundText2}>3Y Returns</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const options = (title: string, sub: string, icon: any, iconWidth: number) => {
-  return (
-    <View style={styles.optionBox}>
-      <Image
-        source={icon}
-        style={{ height: 24, width: iconWidth }}
-        alt="icon"
-      />
-      <Text style={styles.optionText}>
-        {title} <Text style={{ fontWeight: "400" }}>{sub}</Text>
-      </Text>
-    </View>
-  );
-};
-const heading = () => {
-  return (
-    <View style={styles.heading}>
-      <Text style={styles.welcome}>
-        Welcome, <Text style={{ color: "#FFD76F" }}>Krishna!</Text>{" "}
-      </Text>
-      <View>
-        <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
-          <Image
-            source={images.help}
-            style={{ width: 20, height: 20 }}
-            alt="help"
-          />
-          <Text style={styles.help}>Help</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
-const kycSetUp = () => {
-  return (
-    <View style={styles.kycBox}>
-      <Image
-        source={images.kyc}
-        style={{ height: 60, width: 60, alignSelf: "center" }}
-      />
-      <View style={styles.textBox}>
-        <Text style={styles.kycText}>
-          Complete setting up KYC of your account to start Investing.
-        </Text>
-        <TouchableOpacity style={styles.setupBut}>
-          <Text style={styles.setupText}>Setup Now</Text>
-          <Image
-            source={images.setupIcon}
-            style={{ width: 20, height: 20 }}
-            alt="icon"
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
-const chartPoints = () => {
-  return (
-    <View style={{ marginTop: 24, marginHorizontal: 18 }}>
-      <View style={{ display: "flex", flexDirection: "row", gap: 16 }}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 8,
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "#D0FFEB",
-              width: 20,
-              height: 6,
-              borderRadius: 5,
-            }}
-          ></View>
-          <Text style={styles.estimateText}>Invested Amount</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 8,
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "#28FFA4",
-              width: 20,
-              height: 6,
-              borderRadius: 5,
-            }}
-          ></View>
-          <Text style={styles.estimateText}>Estimated Returns</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const thumbComp = () => {
-  return (
-    <View
-      style={{
-        height: 16,
-        width: 16,
-        backgroundColor: "#FFD76F",
-        borderRadius: 8,
-        alignItems: "center",
-        justifyContent: "center", // Center the inner circle
-      }}
-    >
-      <View
-        style={{
-          height: 8,
-          width: 8,
-          backgroundColor: "black",
-          borderRadius: 4,
-        }}
-      ></View>
-    </View>
-  );
-};
 const HomeScreen: React.FC<AppProps> = () => {
   const [getInvestmentModel, setInvestmentModel] = useState<string>("SIP");
   const [amount, setAmount] = useState<number>(50);
@@ -226,6 +32,7 @@ const HomeScreen: React.FC<AppProps> = () => {
   const [getDonutData, setDonutData] = useState<number[]>([300, 9]);
 
   const sliceColor = ["#D0FFEB", "#28FFA4"];
+  const router = useRouter();
 
   useEffect(() => {
     const updateDonutData = () => {
@@ -343,269 +150,274 @@ const HomeScreen: React.FC<AppProps> = () => {
     }
   }, [getInvestmentModel, amount, selectedTenure, getStockType]);
 
-  return (
-    <ScrollView style={styles.container}>
-      <View>
-        {heading()}
-        <View style={{ marginTop: 28 }}>
-          {separater("Complete KYC in under", "120 seconds")}
-          {kycSetUp()}
+  const header = () => {
+    return (
+      <View style={styles.heading}>
+        <Text style={styles.welcome}>
+          Welcome, <Text style={{ color: "#FFD76F" }}>Krishna!</Text>{" "}
+        </Text>
+        <View>
+          <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
+            <Image
+              source={images.help}
+              style={{ width: 20, height: 20 }}
+              alt="help"
+            />
+            <Text style={styles.help}>Help</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 40 }}>
-          {separater("Begin your crypto journey with just ", "₹50")}
-          {stockType("BlueChip Crypto Fund", images.blueChip, "58.19%")}
-          {stockType("Stable Fund", images.stableFund, "49.11%")}
-        </View>
-        <View style={{ marginTop: 40 }}>
-          {separater("Why choose ", "envest?")}
-          <View style={styles.options}>
-            {options("No ", "Lock-in", images.lock, 24)}
-            {options("Fast ", "deposits", images.upiIcon, 49)}
-            {options("24x7 ", "Support", images.headset, 24)}
+      </View>
+    );
+  };
+
+  const separater = (title: string, sub: string) => {
+    return (
+      <View style={styles.break}>
+        <Text style={styles.text1}>
+          {title} <Text style={{ color: "#FFD76F" }}>{sub}</Text>
+        </Text>
+        <View style={styles.line}></View>
+      </View>
+    );
+  };
+  const seperaterOp = (title: string, sub: string) => {
+    return (
+      <View style={styles.break}>
+        <Text style={[styles.text1, { color: "#FFD76F" }]}>
+          {title} <Text style={{ color: "#FFFFFF" }}>{sub}</Text>
+        </Text>
+        <View style={styles.line}></View>
+      </View>
+    );
+  };
+
+  const chartPoints = () => {
+    return (
+      <View style={{ marginTop: 24, marginHorizontal: 18 }}>
+        <View style={{ display: "flex", flexDirection: "row", gap: 16 }}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 8,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#D0FFEB",
+                width: 20,
+                height: 6,
+                borderRadius: 5,
+              }}
+            ></View>
+            <Text style={styles.estimateText}>Invested Amount</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 8,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#28FFA4",
+                width: 20,
+                height: 6,
+                borderRadius: 5,
+              }}
+            ></View>
+            <Text style={styles.estimateText}>Estimated Returns</Text>
           </View>
         </View>
-        <View style={{ marginTop: 40 }}>
-          {seperaterOp("Returns", "you would have generated")}
-          <View style={styles.sip}>
-            <TouchableOpacity
-              style={[
-                styles.sipBut,
-                getInvestmentModel === "SIP"
-                  ? { backgroundColor: "#FFF3D3" }
-                  : null,
-              ]}
-              onPress={() => {
-                setInvestmentModel("SIP");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  getInvestmentModel === "SIP"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                SIP
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.sipBut,
-                getInvestmentModel === "LUMPSUM"
-                  ? { backgroundColor: "#FFF3D3" }
-                  : null,
-              ]}
-              onPress={() => {
-                setInvestmentModel("LUMPSUM");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  getInvestmentModel === "LUMPSUM"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                Lumpsum
-              </Text>
+      </View>
+    );
+  };
+
+  const kycSetUp = () => {
+    return (
+      <View style={{ marginTop: 28 }}>
+        {separater("Complete KYC in under", "120 seconds")}
+        <View style={styles.kycBox}>
+          <Image
+            source={images.kyc}
+            style={{ height: 60, width: 60, alignSelf: "center" }}
+          />
+          <View style={styles.textBox}>
+            <Text style={styles.kycText}>
+              Complete setting up KYC of your account to start Investing.
+            </Text>
+            <TouchableOpacity style={styles.setupBut}>
+              <Text style={styles.setupText}>Setup Now</Text>
+              <Image
+                source={images.setupIcon}
+                style={{ width: 20, height: 20 }}
+                alt="icon"
+              />
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+    );
+  };
+
+  const portfolioType = (title: string, icon: any, returns: string) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          router.replace("/bluechip");
+        }}
+        style={styles.fund}
+        activeOpacity={1}
+      >
+        <Image
+          source={icon}
+          style={{ width: 46, height: 46, alignSelf: "center" }}
+        />
         <View
           style={{
-            marginTop: 40,
+            flex: 1,
             display: "flex",
             flexDirection: "row",
-            marginHorizontal: 16,
             justifyContent: "space-between",
-            alignItems: "center",
           }}
         >
-          <Text style={styles.invText}>Monthly Investment</Text>
-          <View style={styles.invInput}>
-            <Text style={styles.setupText}>₹</Text>
-            <TextInput
-              style={styles.amountText}
-              keyboardType="numeric"
-              value={amount.toString()}
-              onChangeText={(e) => {
-                const parsedValue = parseInt(e, 10);
-                if (!isNaN(parsedValue)) {
-                  setAmount(parsedValue);
-                } else {
-                  setAmount(50);
-                }
+          <View>
+            <Text style={styles.title}>{title}</Text>
+
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 5,
+                marginTop: 25,
               }}
-            />
+            >
+              <Text style={styles.fundText3}>
+                Start SIP with <Text style={{ fontWeight: "700" }}>₹50</Text>{" "}
+              </Text>
+
+              <Image
+                source={images.rightIcon}
+                style={{ width: 12, height: 12 }}
+                alt="icon"
+              />
+            </View>
+          </View>
+          <View>
+            <Text style={styles.fundText1}>{returns}</Text>
+            <Text style={styles.fundText2}>3Y Returns</Text>
           </View>
         </View>
-        <View style={{ marginTop: 10, flex: 1, marginHorizontal: 16 }}>
-          <Slider
-            minimumValue={50}
-            maximumValue={1000000}
-            step={10}
-            value={amount}
-            onValueChange={(e: any) => {
-              setAmount(e);
-            }}
-            minimumTrackTintColor="#FFD76F"
-            maximumTrackTintColor="#3C3835"
-            trackClickable={true}
-            trackStyle={{ height: 5 }}
-            renderThumbComponent={thumbComp}
+      </TouchableOpacity>
+    );
+  };
+  const portfolio = () => {
+    return (
+      <View style={{ marginTop: 40 }}>
+        {separater("Begin your crypto journey with just ", "₹50")}
+        {portfolioType("BlueChip Crypto Fund", images.blueChip, "58.19%")}
+        {portfolioType("Stable Fund", images.stableFund, "49.11%")}
+      </View>
+    );
+  };
+  const supportOptions = (
+    title: string,
+    sub: string,
+    icon: any,
+    iconWidth: number
+  ) => {
+    return (
+      <View style={styles.optionBox}>
+        <Image
+          source={icon}
+          style={{ height: 24, width: iconWidth }}
+          alt="icon"
+        />
+        <Text style={styles.optionText}>
+          {title} <Text style={{ fontWeight: "400" }}>{sub}</Text>
+        </Text>
+      </View>
+    );
+  };
+
+  const envestSupport = () => {
+    return (
+      <View style={{ marginTop: 40 }}>
+        {separater("Why choose ", "envest?")}
+        <View style={styles.options}>
+          {supportOptions("No ", "Lock-in", images.lock, 24)}
+          {supportOptions("Fast ", "deposits", images.upiIcon, 49)}
+          {supportOptions("24x7 ", "Support", images.headset, 24)}
+        </View>
+      </View>
+    );
+  };
+
+  const returnCalculator = () => {
+    return (
+      <View>
+        <View style={{ marginTop: 40 }}>
+          {seperaterOp("Returns", "you would have generated")}
+
+          <InvestmentModel
+            getInvestmentModel={getInvestmentModel}
+            setInvestmentModel={setInvestmentModel}
+          />
+        </View>
+
+        <InvestmentInput amount={amount} setAmount={setAmount} />
+        <View style={{ marginTop: 24 }}>
+          <PortfolioSelect
+            getStockType={getStockType}
+            setStockType={setStockType}
           />
         </View>
         <View style={{ marginTop: 24 }}>
-          <Text style={[styles.invText, { marginHorizontal: 16 }]}>
-            Invested Portfolio
-          </Text>
-          <View style={styles.sip}>
-            <TouchableOpacity
-              style={[
-                styles.fundBut,
-                getStockType === "Blue Chip Crypto Portfolio"
-                  ? { backgroundColor: "#FFF3D3" }
-                  : null,
-              ]}
-              onPress={() => {
-                setStockType("Blue Chip Crypto Portfolio");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  getStockType === "Blue Chip Crypto Portfolio"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                BlueChip Crypto Fund
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.fundBut,
-                getStockType === "Stable Fund"
-                  ? { backgroundColor: "#FFF3D3" }
-                  : null,
-              ]}
-              onPress={() => {
-                setStockType("Stable Fund");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  getStockType === "Stable Fund"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                Stable Fund
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TenureSelect selectedTenure={selectedTenure} setTenure={setTenure} />
         </View>
-        <View style={{ marginTop: 24 }}>
-          <Text style={[styles.invText, { marginHorizontal: 16 }]}>Tenure</Text>
-          <View style={styles.sip}>
-            <TouchableOpacity
-              style={[
-                styles.fundBut,
-                selectedTenure === "6M" ? { backgroundColor: "#FFF3D3" } : null,
-              ]}
-              onPress={() => {
-                setTenure("6M");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  selectedTenure === "6M"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                6 M
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.fundBut,
-                selectedTenure === "1Y" ? { backgroundColor: "#FFF3D3" } : null,
-              ]}
-              onPress={() => {
-                setTenure("1Y");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  selectedTenure === "1Y"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                1 Y
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.fundBut,
-                selectedTenure === "3Y" ? { backgroundColor: "#FFF3D3" } : null,
-              ]}
-              onPress={() => {
-                setTenure("3Y");
-              }}
-              activeOpacity={1}
-            >
-              <Text
-                style={[
-                  styles.sipText,
-                  selectedTenure === "3Y"
-                    ? { color: "black" }
-                    : { color: "white" },
-                ]}
-              >
-                3 Y
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{ marginTop: 34, marginHorizontal: 18 }}>
-          <Text style={styles.calcText}>
-            Your investment of{" "}
-            <Text style={{ color: "#FFD76F" }}>₹ {getInvestedMoney} </Text>{" "}
-          </Text>
-          <Text style={styles.calcText}>
-            Over a{" "}
-            <Text style={{ color: "#FFD76F" }}>
-              {selectedTenure === "6M"
-                ? "6 Month"
-                : selectedTenure === "1Y"
-                ? "1 Year"
-                : selectedTenure === "3Y"
-                ? "3 Year"
-                : "Unknown Period"}{" "}
-              Period
-            </Text>{" "}
-          </Text>
-          <Text style={styles.calcText}>
-            Would have become an amount of {"\n"}
-            <Text style={{ color: "#FFD76F" }}>
-              {" "}
-              ₹ {getRetuns.toFixed(2)}
-            </Text>{" "}
-          </Text>
-        </View>
+      </View>
+    );
+  };
+
+  const returnDetails = () => {
+    return (
+      <View style={{ marginTop: 34, marginHorizontal: 18 }}>
+        <Text style={styles.calcText}>
+          Your investment of{" "}
+          <Text style={{ color: "#FFD76F", fontWeight: "600" }}>
+            ₹ {getInvestedMoney}{" "}
+          </Text>{" "}
+        </Text>
+        <Text style={styles.calcText}>
+          Over a{" "}
+          <Text style={{ color: "#FFD76F", fontWeight: "600" }}>
+            {selectedTenure === "6M"
+              ? "6 Month"
+              : selectedTenure === "1Y"
+              ? "1 Year"
+              : selectedTenure === "3Y"
+              ? "3 Year"
+              : "Unknown Period"}{" "}
+            Period
+          </Text>{" "}
+        </Text>
+        <Text style={styles.calcText}>
+          Would have become an amount of {"\n"}
+          <Text style={{ color: "#FFD76F", fontWeight: "600" }}>
+            {" "}
+            ₹ {getRetuns.toFixed(2)}
+          </Text>{" "}
+        </Text>
+      </View>
+    );
+  };
+
+  const chart = () => {
+    return (
+      <View>
         {chartPoints()}
         <View
           style={{
@@ -622,6 +434,19 @@ const HomeScreen: React.FC<AppProps> = () => {
             coverFill={null}
           />
         </View>
+      </View>
+    );
+  };
+  return (
+    <ScrollView style={styles.container}>
+      <View>
+        {header()}
+        {kycSetUp()}
+        {portfolio()}
+        {envestSupport()}
+        {returnCalculator()}
+        {returnDetails()}
+        {chart()}
         <TouchableOpacity style={styles.invBut}>
           <Text style={styles.butText}>Start Investing</Text>
         </TouchableOpacity>
@@ -629,8 +454,6 @@ const HomeScreen: React.FC<AppProps> = () => {
     </ScrollView>
   );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -646,13 +469,13 @@ const styles = StyleSheet.create({
   },
   welcome: {
     color: "white",
-    fontWeight: "400",
+    fontWeight: "500",
     fontSize: 20,
     lineHeight: 24,
   },
   help: {
     color: "#FFF3D3",
-    fontWeight: "400",
+    fontWeight: "500",
     fontSize: 14,
     lineHeight: 20,
     marginLeft: 10,
@@ -664,7 +487,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     color: "white",
-    fontWeight: "400",
+    fontWeight: "500",
     fontSize: 14,
     lineHeight: 17,
     marginRight: 10,
@@ -687,7 +510,7 @@ const styles = StyleSheet.create({
   },
   kycText: {
     color: "#FFFFFF",
-    fontWeight: "400",
+    fontWeight: "600",
     fontSize: 14,
     lineHeight: 17,
     paddingRight: 30,
@@ -710,7 +533,7 @@ const styles = StyleSheet.create({
   },
   setupText: {
     color: "#000000",
-    fontWeight: "400",
+    fontWeight: "500",
     fontSize: 14,
     lineHeight: 17,
   },
@@ -726,25 +549,25 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFFFFF",
-    fontWeight: "500",
+    fontWeight: "600",
     fontSize: 14,
     lineHeight: 17,
   },
   fundText1: {
     color: "#28FFA4",
-    fontWeight: "400",
+    fontWeight: "600",
     fontSize: 14,
     lineHeight: 17,
   },
   fundText2: {
     color: "#979797",
-    fontWeight: "400",
+    fontWeight: "600",
     fontSize: 10,
     lineHeight: 13,
   },
   fundText3: {
     color: "#FFFFFF",
-    fontWeight: "400",
+    fontWeight: "500",
     fontSize: 12,
     lineHeight: 15,
   },
@@ -776,48 +599,6 @@ const styles = StyleSheet.create({
     gap: 24,
     marginHorizontal: 16,
   },
-  sipText: {
-    fontWeight: "400",
-    fontSize: 14,
-    lineHeight: 17,
-  },
-  sipBut: {
-    paddingHorizontal: 28,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: "#FFF3D3",
-    borderRadius: 5,
-  },
-  invInput: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    backgroundColor: "#FFF3D3",
-    gap: 15,
-    display: "flex",
-    flexDirection: "row",
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  amountText: {
-    color: "#000000",
-    fontWeight: "400",
-    fontSize: 14,
-    lineHeight: 17,
-    minWidth: 46,
-  },
-  invText: {
-    color: "#FFFFFF",
-    fontWeight: "500",
-    fontSize: 12,
-    lineHeight: 15,
-  },
-  fundBut: {
-    paddingHorizontal: 11,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: "#FFF3D3",
-    borderRadius: 5,
-  },
   calcText: {
     color: "#FFFFFF",
     fontWeight: "500",
@@ -828,7 +609,7 @@ const styles = StyleSheet.create({
   },
   butText: {
     color: "#000000",
-    fontWeight: "500",
+    fontWeight: "600",
     fontSize: 16,
     lineHeight: 20,
   },
@@ -849,3 +630,5 @@ const styles = StyleSheet.create({
     lineHeight: 15,
   },
 });
+
+export default HomeScreen;
