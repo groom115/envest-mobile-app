@@ -12,4 +12,9 @@ export default {
   lock: require("../assets/images/lock.png"),
   upiIcon: require("../assets/images/upi.png"),
   arrowLeft: require("../assets/images/arrow-left.png"),
+  closeDropDown: require("../assets/images/closedropdown.png"),
+  openDropDown: require("../assets/images/opendropdown.png"),
+  documentText: require("../assets/images/document-text.png"),
+  arrowDown: require("../assets/images/arrow-down-right.png"),
+  arrowUp: require("../assets/images/arrow-up-left.png"),
 };
