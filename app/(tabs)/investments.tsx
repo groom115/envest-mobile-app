@@ -3,7 +3,7 @@ import React from 'react';
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
 
-export default function TabTwoScreen() {
+export default function InvestmentsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>

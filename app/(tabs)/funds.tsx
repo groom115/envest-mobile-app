@@ -18,7 +18,7 @@ import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInp
 
 interface AppProps {}
 
-const HomeScreen: React.FC<AppProps> = () => {
+const FundsScreen: React.FC<AppProps> = () => {
   const [getInvestmentModel, setInvestmentModel] = useState<string>("SIP");
   const [amount, setAmount] = useState<number>(50);
   const [getStockType, setStockType] = useState<string>(
@@ -631,4 +631,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default FundsScreen;

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../constants/images";
 import { useRouter } from "expo-router";
 
-const DesignProf = () => {
+const KycScreen = () => {
   const header = () => {
     const router = useRouter();
     return (
@@ -173,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DesignProf;
+export default KycScreen;

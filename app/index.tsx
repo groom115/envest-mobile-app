@@ -82,7 +82,7 @@ const Main = () => {
     }
 
     if(isAuthenticated){
-      return <Redirect href="/home" />
+      return <Redirect href="/funds" />
     }
 
     return <Redirect href="/register"/>
