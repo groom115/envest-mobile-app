@@ -85,7 +85,7 @@ const BlueChipScreen = () => {
   const priceGraph = () => {
     return chartData && <PriceGraph chartData={chartData} />;
   };
-  const holding = (length: number) => {
+  const cryptoDistribution = () => {
     const items: string[] = [];
     const getDonutData: number[] = [];
     const constituents = portfolioData?.constituents;
@@ -157,11 +157,15 @@ const BlueChipScreen = () => {
     );
   };
 
-  const sectorHolding = (length: number) => {
-    const holdingData =
-      slug === "bluechip-crypto-fund"
-        ? PORTFOLIO_BLUECHIP_SECTOR_ANALYSIS
-        : PORTFOLIO_STABLE_FUND_ANALYSIS;
+  const sectorHolding = () => {
+    let holdingData;
+    switch (slug) {
+      case "bluechip-crypto-fund":
+        holdingData = PORTFOLIO_BLUECHIP_SECTOR_ANALYSIS;
+        break;
+      default:
+        holdingData = PORTFOLIO_STABLE_FUND_ANALYSIS;
+    }
 
     const getDonutData = holdingData.map((item) => item.amount);
     const sliceColor = ["#FEEE7F", "#E93F8E", "#53E7CE"];
@@ -219,16 +223,23 @@ const BlueChipScreen = () => {
   };
 
   const portfolioContent = () => {
+    let source, cagr;
+
+    switch (slug) {
+      case "bluechip-crypto-fund":
+        source = images.blueChip;
+        cagr = 37;
+        break;
+      default:
+        source = images.stableFund;
+        cagr = 30;
+    }
     return (
       portfolioData && (
         <View style={{ marginTop: 26, marginHorizontal: 16 }}>
           <View style={styles.content}>
             <Image
-              source={
-                slug === "bluechip-crypto-fund"
-                  ? images.blueChip
-                  : images.stableFund
-              }
+              source={source}
               style={{ width: 48, height: 48 }}
               alt="blue"
             />
@@ -257,9 +268,7 @@ const BlueChipScreen = () => {
             </Text>
           </View>
           <View style={{ marginTop: 16 }}>
-            <Text style={styles.contentText3}>
-              {slug === "bluechip-crypto-fund" ? 37 : 30}%
-            </Text>
+            <Text style={styles.contentText3}>{cagr}%</Text>
             <Text style={styles.contentText4}>3Y CAGR</Text>
           </View>
         </View>
@@ -490,8 +499,8 @@ const BlueChipScreen = () => {
           {heading()}
           {portfolioContent()}
           {priceGraph()}
-          {holding(7)}
-          {sectorHolding(3)}
+          {cryptoDistribution()}
+          {sectorHolding()}
           {returnAnalysis()}
           {returnCalculator()}
           {togglePoints()}

@@ -280,6 +280,15 @@ const HomeScreen: React.FC<AppProps> = () => {
     returns: string,
     key: number
   ) => {
+    let source;
+
+    switch (slug) {
+      case "bluechip-crypto-fund":
+        source = images.blueChip;
+        break;
+      default:
+        source = images.stableFund;
+    }
     return (
       <TouchableOpacity
         onPress={() => {
@@ -290,11 +299,7 @@ const HomeScreen: React.FC<AppProps> = () => {
         key={key}
       >
         <Image
-          source={
-            slug === "bluechip-crypto-fund"
-              ? images.blueChip
-              : images.stableFund
-          }
+          source={source}
           style={{ width: 46, height: 46, alignSelf: "center" }}
         />
         <View
