@@ -286,8 +286,11 @@ const HomeScreen: React.FC<AppProps> = () => {
       case "bluechip-crypto-fund":
         source = images.blueChip;
         break;
-      default:
+      case "stable-fund":
         source = images.stableFund;
+        break;
+      default:
+        break;
     }
     return (
       <TouchableOpacity

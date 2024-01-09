@@ -163,8 +163,12 @@ const BlueChipScreen = () => {
       case "bluechip-crypto-fund":
         holdingData = PORTFOLIO_BLUECHIP_SECTOR_ANALYSIS;
         break;
+      case "stable-fund":
+        holdingData = PORTFOLIO_STABLE_FUND_ANALYSIS;
+        break;
       default:
         holdingData = PORTFOLIO_STABLE_FUND_ANALYSIS;
+        break;
     }
 
     const getDonutData = holdingData.map((item) => item.amount);
@@ -230,9 +234,10 @@ const BlueChipScreen = () => {
         source = images.blueChip;
         cagr = 37;
         break;
-      default:
+      case "stable-fund":
         source = images.stableFund;
         cagr = 30;
+        break;
     }
     return (
       portfolioData && (
