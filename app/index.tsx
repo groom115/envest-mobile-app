@@ -19,7 +19,7 @@ const Main = () => {
       switch (event) {
         case "signIn":
           // setAuth({})
-          router.replace("/home");
+          router.replace("/");
           break;
         case "signOut":
           dispatch(removeAuth());

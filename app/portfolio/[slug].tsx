@@ -55,7 +55,7 @@ const BlueChipScreen = () => {
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
             onPress={() => {
-              router.replace("/home");
+              router.replace("/funds");
             }}
             activeOpacity={1}
           >

@@ -260,7 +260,10 @@ const FundsScreen: React.FC<AppProps> = () => {
             <Text style={styles.kycText}>
               Complete setting up KYC of your account to start Investing.
             </Text>
-            <TouchableOpacity style={styles.setupBut}>
+            <TouchableOpacity 
+            style={styles.setupBut}
+            onPress={() => router.push("/kyc")}
+            >
               <Text style={styles.setupText}>Setup Now</Text>
               <Image
                 source={images.setupIcon}
@@ -295,7 +298,7 @@ const FundsScreen: React.FC<AppProps> = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          router.replace(`/portfolio/${slug}`);
+          router.push(`/portfolio/${slug}`);
         }}
         style={styles.fund}
         activeOpacity={1}

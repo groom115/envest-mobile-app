@@ -21,6 +21,7 @@ const KycScreen = () => {
               style={{ height: 24, width: 24 }}
             />
           </TouchableOpacity>
+          <Text style={styles.welcome}>envest</Text>
         </View>
         <View>
           <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
@@ -53,10 +54,11 @@ const KycScreen = () => {
           marginTop: 20,
           padding: 16,
           borderRadius: 5,
+          paddingLeft: 20
         }}
       >
-        <View style={{ display: "flex", flexDirection: "row", gap: 12 }}>
-          <Text style={styles.stepText}>Step 1</Text>
+        <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
+          <Text style={styles.stepText}>Step 1:</Text>
           <View>
             <Text style={styles.stepText1}>Pan Card Verification</Text>
             <Text style={styles.stepText2}>
@@ -68,7 +70,7 @@ const KycScreen = () => {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: 12,
+            gap: 24,
             marginTop: 28,
           }}
         >
@@ -84,7 +86,7 @@ const KycScreen = () => {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: 12,
+            gap: 24,
             marginTop: 28,
           }}
         >
@@ -156,6 +158,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 20,
+    marginBottom:4
   },
   stepText2: {
     color: "#979797",
@@ -170,6 +173,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     paddingVertical: 12,
     textAlign: "center",
+  },
+  welcome: {
+    color: "#FFD76F",
+    fontWeight: "600",
+    fontSize: 20,
+    lineHeight: 24,
   },
 });
 
