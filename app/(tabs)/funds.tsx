@@ -17,6 +17,8 @@ import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
 import { envestBackend } from "../../api";
 import { Portfolio } from "../../model/basket";
+import { useSelector } from "react-redux";
+import { RootState } from "../../global/store";
 
 interface AppProps {}
 
@@ -33,6 +35,8 @@ const FundsScreen: React.FC<AppProps> = () => {
   const [getInvestedMoney, setInvestedMoney] = useState(0);
   const [getDonutData, setDonutData] = useState<number[]>([300, 9]);
   const [baskets, setBaskets] = useState<any>(null);
+
+  const {name: customerName}=useSelector((state: RootState)=>state.profile)
 
   const sliceColor = ["#D0FFEB", "#28FFA4"];
   const router = useRouter();
@@ -165,7 +169,7 @@ const FundsScreen: React.FC<AppProps> = () => {
     return (
       <View style={styles.heading}>
         <Text style={styles.welcome}>
-          Welcome, <Text style={{ color: "#FFD76F" }}>Krishna!</Text>{" "}
+          Welcome, <Text style={{ color: "#FFD76F" }}>{customerName}!</Text>{" "}
         </Text>
         <View>
           <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
