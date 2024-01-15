@@ -15,6 +15,8 @@ import InvestmentModel from "../../components/HomeScreenComponents/InvestmentMod
 import PortfolioSelect from "../../components/HomeScreenComponents/PortfolioSelect";
 import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
+import { envestBackend } from "../../api";
+import { Portfolio } from "../../model/basket";
 
 interface AppProps {}
 
@@ -30,9 +32,18 @@ const FundsScreen: React.FC<AppProps> = () => {
   const [getAnnualRate, setAnnualRate] = useState(0);
   const [getInvestedMoney, setInvestedMoney] = useState(0);
   const [getDonutData, setDonutData] = useState<number[]>([300, 9]);
+  const [baskets, setBaskets] = useState<any>(null);
 
   const sliceColor = ["#D0FFEB", "#28FFA4"];
   const router = useRouter();
+  const fetchData = async () => {
+    const list = await envestBackend.get(`/baskets/v1/list`);
+    setBaskets(list.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const updateDonutData = () => {
@@ -263,17 +274,35 @@ const FundsScreen: React.FC<AppProps> = () => {
     );
   };
 
-  const portfolioType = (title: string, icon: any, returns: string) => {
+  const portfolioType = (
+    title: string,
+    slug: string,
+    returns: string,
+    key: number
+  ) => {
+    let source;
+
+    switch (slug) {
+      case "bluechip-crypto-fund":
+        source = images.blueChip;
+        break;
+      case "stable-fund":
+        source = images.stableFund;
+        break;
+      default:
+        break;
+    }
     return (
       <TouchableOpacity
         onPress={() => {
-          router.replace("/bluechip");
+          router.replace(`/portfolio/${slug}`);
         }}
         style={styles.fund}
         activeOpacity={1}
+        key={key}
       >
         <Image
-          source={icon}
+          source={source}
           style={{ width: 46, height: 46, alignSelf: "center" }}
         />
         <View
@@ -316,11 +345,20 @@ const FundsScreen: React.FC<AppProps> = () => {
   };
   const portfolio = () => {
     return (
-      <View style={{ marginTop: 40 }}>
-        {separater("Begin your crypto journey with just ", "₹50")}
-        {portfolioType("BlueChip Crypto Fund", images.blueChip, "58.19%")}
-        {portfolioType("Stable Fund", images.stableFund, "49.11%")}
-      </View>
+      baskets !== null && (
+        <View style={{ marginTop: 40 }}>
+          {separater("Begin your crypto journey with just ", "₹50")}
+
+          {baskets.map((item: Portfolio, index: number) => {
+            return portfolioType(
+              item.name,
+              item.slug,
+              item.returns.absolute["3Y"],
+              index
+            );
+          })}
+        </View>
+      )
     );
   };
   const supportOptions = (
