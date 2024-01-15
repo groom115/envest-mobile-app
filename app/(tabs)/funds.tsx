@@ -17,10 +17,12 @@ import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
 import { envestBackend } from "../../api";
 import { Portfolio } from "../../model/basket";
+import { useSelector } from "react-redux";
+import { RootState } from "../../global/store";
 
 interface AppProps {}
 
-const HomeScreen: React.FC<AppProps> = () => {
+const FundsScreen: React.FC<AppProps> = () => {
   const [getInvestmentModel, setInvestmentModel] = useState<string>("SIP");
   const [amount, setAmount] = useState<number>(50);
   const [getStockType, setStockType] = useState<string>(
@@ -33,6 +35,8 @@ const HomeScreen: React.FC<AppProps> = () => {
   const [getInvestedMoney, setInvestedMoney] = useState(0);
   const [getDonutData, setDonutData] = useState<number[]>([300, 9]);
   const [baskets, setBaskets] = useState<any>(null);
+
+  const {name: customerName}=useSelector((state: RootState)=>state.profile)
 
   const sliceColor = ["#D0FFEB", "#28FFA4"];
   const router = useRouter();
@@ -165,7 +169,7 @@ const HomeScreen: React.FC<AppProps> = () => {
     return (
       <View style={styles.heading}>
         <Text style={styles.welcome}>
-          Welcome, <Text style={{ color: "#FFD76F" }}>Krishna!</Text>{" "}
+          Welcome, <Text style={{ color: "#FFD76F" }}>{customerName}!</Text>{" "}
         </Text>
         <View>
           <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
@@ -260,7 +264,10 @@ const HomeScreen: React.FC<AppProps> = () => {
             <Text style={styles.kycText}>
               Complete setting up KYC of your account to start Investing.
             </Text>
-            <TouchableOpacity style={styles.setupBut}>
+            <TouchableOpacity 
+            style={styles.setupBut}
+            onPress={() => router.push("/kyc")}
+            >
               <Text style={styles.setupText}>Setup Now</Text>
               <Image
                 source={images.setupIcon}
@@ -295,7 +302,7 @@ const HomeScreen: React.FC<AppProps> = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          router.replace(`/portfolio/${slug}`);
+          router.push(`/portfolio/${slug}`);
         }}
         style={styles.fund}
         activeOpacity={1}
@@ -669,4 +676,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default FundsScreen;

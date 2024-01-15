@@ -1,53 +1,39 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import { Tabs } from 'expo-router';
+import { Text } from 'react-native';
 import React from 'react';
-import Colors from '../../constants/Colors';
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { Fontisto, FontAwesome, Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+        tabBarActiveTintColor: '#FFD76F',
+          tabBarInactiveTintColor: '#979797',
+          tabBarLabelStyle: {
+            fontSize: 12
+          }
       }}>
       <Tabs.Screen
-        name="index"
+        name="funds"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: "Funds",
+          tabBarIcon: ({ focused }) => <Fontisto name="pie-chart-2" size={22} color={focused?"#FFD76F": "#979797"} />,
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="investments"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Investments',
+          tabBarIcon: ({ focused }) => <FontAwesome name="line-chart" size={22} color={focused?"#FFD76F": "#979797"} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ focused }) => <Ionicons name="person-circle" size={22} color={focused?"#FFD76F": "#979797"} />,
         }}
       />
     </Tabs>

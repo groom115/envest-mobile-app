@@ -33,7 +33,7 @@ const LoginScreen = () => {
                 bavVerified: user.attributes["custom:bavVerified"],
                 phone: user.attributes["custom:phone"]
             }));
-            router.replace("/home");
+            router.replace("/");
         } catch(error){
             console.error(error)
         }
