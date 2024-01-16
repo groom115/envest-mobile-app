@@ -19,7 +19,7 @@ const Main = () => {
       switch (event) {
         case "signIn":
           // setAuth({})
-          router.replace("/home");
+          router.replace("/");
           break;
         case "signOut":
           dispatch(removeAuth());
@@ -82,7 +82,7 @@ const Main = () => {
     }
 
     if(isAuthenticated){
-      return <Redirect href="/home" />
+      return <Redirect href="/funds" />
     }
 
     return <Redirect href="/register"/>

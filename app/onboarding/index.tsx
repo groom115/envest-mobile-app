@@ -34,7 +34,7 @@ const OnBoardingScreen: React.FC<AppProps> = () => {
   const onFinishUserOnboarding=async()=>{
     await AsyncStorage.setItem('user-onboarding','true');
 
-    router.replace('/home');
+    router.replace('/');
   }
   return (
     <View style={styles.container}>
