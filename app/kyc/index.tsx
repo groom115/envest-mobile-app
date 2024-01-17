@@ -1,9 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../constants/images";
 import { useRouter } from "expo-router";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../global/store";
+// import { WebView } from 'react-native-webview';
 
 const KycScreen = () => {
+
+  const {userId, name}=useSelector((state: RootState)=>state.profile);
+
+  const [startKycUrl, setStartKycUrl]=useState<string>('');
+
+  const handlePressCompleteKyc=async()=>{
+    const startKycResponse=await axios.post('https://ind.idv.hyperverge.co/v1/link-kyc/start',{
+        workflowId: "OCR_Facematch_Text",
+        redirectUrl: "https://www.envest.money",
+        transactionId: userId,
+        inputs: {
+            "Name": name
+        }
+    },
+    {
+        headers: {
+            "appId": "fhkqxf",
+            "appKey": "gvyguja02rsx5t59wy54"
+        }
+    });
+    
+    console.log(startKycResponse.data.result.startKycUrl)
+    setStartKycUrl(startKycResponse.data.result.startKycUrl);
+  }
+
+  // if(startKycUrl){
+  //   return <WebView source={{ uri: startKycUrl}} />
+  // }
+
   const header = () => {
     const router = useRouter();
     return (
@@ -106,6 +139,7 @@ const KycScreen = () => {
     return (
       <TouchableOpacity
         style={{ borderRadius: 5, marginTop: 20, backgroundColor: "#FFD76F" }}
+        onPress={()=>handlePressCompleteKyc()}
       >
         <Text style={styles.butText}>Complete your KYC</Text>
       </TouchableOpacity>
