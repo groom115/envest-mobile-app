@@ -1,29 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../constants/images";
-import {Auth} from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { useRouter } from "expo-router";
 
 interface AppProps {}
 
 const RegisterScreen: React.FC<AppProps> = () => {
+  const router = useRouter();
 
-  const router=useRouter();
-
-  const handleGoogleLoginClick=()=>{
-    try{
+  const handleGoogleLoginClick = () => {
+    try {
       Auth.federatedSignIn({
-        provider: CognitoHostedUIIdentityProvider.Google
+        provider: CognitoHostedUIIdentityProvider.Google,
       });
-    } catch(error){
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
 
-  const handleEmailLoginClick=()=>{
+  const handleEmailLoginClick = () => {
     router.push("/login");
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -37,11 +36,17 @@ const RegisterScreen: React.FC<AppProps> = () => {
       </View>
 
       <View style={styles.bottom}>
-        <TouchableOpacity style={styles.button} onPress={handleGoogleLoginClick}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleGoogleLoginClick}
+        >
           <Image source={images.google} style={styles.image2} alt="" />
           <Text style={styles.text3}>Continue with Google</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonSecond} onPress={handleEmailLoginClick}>
+        <TouchableOpacity
+          style={styles.buttonSecond}
+          onPress={handleEmailLoginClick}
+        >
           <Text style={styles.text3}>Continue with Email</Text>
         </TouchableOpacity>
         <Text style={styles.text4}>
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   text2: {
+    marginTop: 20,
     color: "#FFFFFF",
     fontWeight: "400",
     fontSize: 32,
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFD76F",
     paddingVertical: 12,
     borderRadius: 5,
-    marginTop:10,
+    marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
     display: "flex",

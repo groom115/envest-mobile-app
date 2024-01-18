@@ -5,6 +5,7 @@ interface DataProps {
   title: string;
   desc: string;
   color: string;
+  subtitle?: string;
 }
 
 interface OnBoardingItemProps {
@@ -19,6 +20,7 @@ const OnBoardingItem: React.FC<OnBoardingItemProps> = ({ item }) => {
       <View style={{ flex: 0.3, marginHorizontal: 16 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.desc}>{item.desc}</Text>
+        <Text style={styles.desc}>{item.subtitle}</Text>
       </View>
     </View>
   );
