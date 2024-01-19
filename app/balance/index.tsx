@@ -98,13 +98,13 @@ const Balance = () => {
               <Image
                 source={images.openDropDown}
                 alt="open"
-                style={{ width: 24, height: 24 }}
+                style={{ width: 16, height: 16 }}
               />
             ) : (
               <Image
                 source={images.closeDropDown}
                 alt="close"
-                style={{ width: 24, height: 24 }}
+                style={{ width: 16, height: 16 }}
               />
             )}
           </TouchableOpacity>

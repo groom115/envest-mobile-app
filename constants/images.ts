@@ -28,4 +28,5 @@ export default {
   ordersIcon: require("../assets/images/clipboard-document-list.png"),
   helpHeadset: require("../assets/images/help_headset.png"),
   phoneIcon: require("../assets/images/phone.png"),
+  money: require("../assets/images/money.png"),
 };

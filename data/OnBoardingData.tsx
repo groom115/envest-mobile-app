@@ -6,8 +6,9 @@ export const data = [
   },
   {
     title: "Automate it",
-    desc: "Too busy to study & invest in the crypto market? Setup an SIP in Crypto Funds.",
+    desc: "Too busy to study & invest in the crypto market?",
     color: "#B7DDF3",
+    subtitle: "Setup an SIP in Crypto Funds.",
   },
   {
     title: "₹50",
