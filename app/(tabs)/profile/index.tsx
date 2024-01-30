@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import images from "../../constants/images";
+import images from "../../../constants/images";
 import { useSelector } from "react-redux";
 
 const ProfileScreen = () => {
