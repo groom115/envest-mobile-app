@@ -13,7 +13,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -32,6 +34,9 @@
           "clientId": "507053804224-dvt66inccsp1ah0a75dni5lq5812cohd.apps.googleusercontent.com"
         }
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
