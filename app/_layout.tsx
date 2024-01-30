@@ -2,7 +2,7 @@ import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme, Linking, Platform } from 'react-native';
 import awsConfig from '../aws-exports';
@@ -10,6 +10,7 @@ import * as WebBrowser from "expo-web-browser";
 import { Provider } from 'react-redux';
 import store from '../global/store';
 import { Amplify } from 'aws-amplify';
+import * as SplashScreen from 'expo-splash-screen';
 
 const isLocalhost = Boolean(__DEV__);
 
@@ -50,6 +51,9 @@ export const unstable_settings = {
   initialRouteName: 'index',
 };
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     Gilroy: require('../assets/fonts/Gilroy-Regular.ttf'),
@@ -61,10 +65,13 @@ export default function RootLayout() {
     if (error) throw error;
   }, [error]);
 
+  if(loaded){
+    SplashScreen.hideAsync();
+  }
+
   return (
     <>
       {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {!loaded && <SplashScreen />}
       {loaded && <RootLayoutNav />}
     </>
   );
