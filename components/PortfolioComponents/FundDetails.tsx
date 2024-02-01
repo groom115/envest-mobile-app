@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    borderTopWidth: 1,
+    borderTopWidth: 0.4,
     borderTopColor: "#979797",
   },
   title: {

@@ -17,8 +17,11 @@ import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
 import { envestBackend } from "../../api";
 import { Portfolio } from "../../model/basket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../global/store";
+import { useQuery } from "@tanstack/react-query";
+import { getInrWalletBalance } from "../../services/wallet.service";
+import { setWallet } from "../../global/slices/wallet";
 
 interface AppProps {}
 
@@ -36,7 +39,9 @@ const FundsScreen: React.FC<AppProps> = () => {
   const [getDonutData, setDonutData] = useState<number[]>([300, 9]);
   const [baskets, setBaskets] = useState<any>(null);
 
-  const {name: customerName}=useSelector((state: RootState)=>state.profile)
+  const { name: customerName, userId } = useSelector(
+    (state: RootState) => state.profile
+  );
 
   const sliceColor = ["#D0FFEB", "#28FFA4"];
   const router = useRouter();
@@ -165,6 +170,21 @@ const FundsScreen: React.FC<AppProps> = () => {
     }
   }, [getInvestmentModel, amount, selectedTenure, getStockType]);
 
+  const dispatch=useDispatch();
+
+  const {data: inrBalance, isSuccess} = useQuery({
+    queryKey: ["inr-balance"],
+    queryFn: () => getInrWalletBalance(userId)
+  })
+
+  if(isSuccess){
+    dispatch(
+      setWallet({
+        inrBalance: inrBalance
+      })
+    );
+  }
+
   const header = () => {
     return (
       <View style={styles.heading}>
@@ -257,23 +277,19 @@ const FundsScreen: React.FC<AppProps> = () => {
         {separater("Complete KYC in under", "120 seconds")}
         <View style={styles.kycBox}>
           <Image
-            source={images.kyc}
+            source={images.money}
             style={{ height: 60, width: 60, alignSelf: "center" }}
           />
           <View style={styles.textBox}>
             <Text style={styles.kycText}>
-              Complete setting up KYC of your account to start Investing.
+              Refer your friends & family and earn 100% of their commission.
             </Text>
-            <TouchableOpacity 
-            style={styles.setupBut}
-            onPress={() => router.push("/kyc")}
+            <TouchableOpacity
+              style={styles.setupBut}
+              // TODO: Navigate to Refer Screen
+              // onPress={() => router.push("/refer")}
             >
-              <Text style={styles.setupText}>Setup Now</Text>
-              <Image
-                source={images.setupIcon}
-                style={{ width: 20, height: 20 }}
-                alt="icon"
-              />
+              <Text style={styles.setupText}>Start Earning</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -546,7 +562,6 @@ const styles = StyleSheet.create({
   kycBox: {
     marginHorizontal: 16,
     marginTop: 22,
-    // backgroundImage: "linear-gradient(to right, #343434, #242424)",
     backgroundColor: "#343434",
     display: "flex",
     flexDirection: "row",

@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   text2: {
+    marginTop: 20,
     color: "#FFFFFF",
     fontWeight: "400",
     fontSize: 32,

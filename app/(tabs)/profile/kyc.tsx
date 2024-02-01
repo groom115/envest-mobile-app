@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import images from "../../constants/images";
+import images from "../../../constants/images";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { RootState } from "../../global/store";
+import { RootState } from "../../../global/store";
 // import { WebView } from 'react-native-webview';
 
 const KycScreen = () => {
 
+  const router = useRouter();
   const {userId, name}=useSelector((state: RootState)=>state.profile);
+  const kycVerified=useSelector((state: RootState)=>state.profile.kycVerified)
 
   const [startKycUrl, setStartKycUrl]=useState<string>('');
 
@@ -38,15 +40,14 @@ const KycScreen = () => {
   // }
 
   const header = () => {
-    const router = useRouter();
     return (
       <View style={styles.heading}>
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
             onPress={() => {
-              router.replace("/");
+              router.back();
             }}
-            activeOpacity={1}
+            activeOpacity={0.7}
           >
             <Image
               source={images.arrowLeft}
@@ -148,9 +149,9 @@ const KycScreen = () => {
   return (
     <View style={styles.container}>
       {header()}
-      {title("Complete KYC in", " 120 seconds!")}
+      {title(kycVerified?"You are a KYC":"Complete KYC in", kycVerified?" Verified Envestor!":" 120 seconds!")}
       {steps()}
-      {button()}
+      {!kycVerified && button()}
     </View>
   );
 };
