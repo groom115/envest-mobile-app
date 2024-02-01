@@ -50,8 +50,8 @@ const Main = () => {
           emailVerified: currentUser.attributes["email_verified"],
           userId: currentUser.attributes["sub"],
           name: currentUser.attributes["custom:name"],
-          kycVerified: currentUser.attributes["custom:kycVerified"],
-          bavVerified: currentUser.attributes["custom:bavVerified"],
+          kycVerified: currentUser.attributes["custom:kycVerified"] == "Y" ? true : false,
+          bavVerified: currentUser.attributes["custom:bavVerified"] == "Y" ? true : false,
           phone: currentUser.attributes["custom:phone"]
       }));
     } catch(error) {

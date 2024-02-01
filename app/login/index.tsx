@@ -29,8 +29,8 @@ const LoginScreen = () => {
                 emailVerified: user.attributes["email_verified"],
                 userId: user.attributes["sub"],
                 name: user.attributes["custom:name"],
-                kycVerified: user.attributes["custom:kycVerified"],
-                bavVerified: user.attributes["custom:bavVerified"],
+                kycVerified: user.attributes["custom:kycVerified"] == "Y" ? true : false,
+                bavVerified: user.attributes["custom:bavVerified"] == "Y" ? true : false,
                 phone: user.attributes["custom:phone"]
             }));
             router.replace("/");

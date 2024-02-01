@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import store from '../global/store';
 import { Amplify } from 'aws-amplify';
 import * as SplashScreen from 'expo-splash-screen';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const isLocalhost = Boolean(__DEV__);
 
@@ -79,8 +80,10 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const queryClient = new QueryClient();
 
   return (
+    <QueryClientProvider client={queryClient}>
     <Provider store={store}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme} >
         <Stack screenOptions={{ headerShown: false }}>
@@ -90,5 +93,6 @@ function RootLayoutNav() {
         </Stack>
       </ThemeProvider>
     </Provider>
+    </QueryClientProvider>
   );
 }

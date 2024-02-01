@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import images from "../../constants/images";
+import images from "../../../constants/images";
 import { useRouter } from "expo-router";
 
 const KycScreen = () => {
@@ -11,9 +11,9 @@ const KycScreen = () => {
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
             onPress={() => {
-              router.replace("/");
+              router.back();
             }}
-            activeOpacity={1}
+            activeOpacity={0.7}
           >
             <Image
               source={images.arrowLeft}
