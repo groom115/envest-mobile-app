@@ -2,10 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../../constants/images";
 import { useRouter } from "expo-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../global/store";
 
 const KycScreen = () => {
+  const router = useRouter();
+  const kycVerified=useSelector((state: RootState)=>state.profile.kycVerified)
   const header = () => {
-    const router = useRouter();
     return (
       <View style={styles.heading}>
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
@@ -114,9 +117,9 @@ const KycScreen = () => {
   return (
     <View style={styles.container}>
       {header()}
-      {title("Complete KYC in", " 120 seconds!")}
+      {title(kycVerified?"You are a KYC":"Complete KYC in", kycVerified?" Verified Envestor!":" 120 seconds!")}
       {steps()}
-      {button()}
+      {!kycVerified && button()}
     </View>
   );
 };

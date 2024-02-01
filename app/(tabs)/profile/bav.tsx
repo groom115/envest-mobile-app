@@ -2,10 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../../constants/images";
 import { useRouter } from "expo-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../global/store";
 
 const BavScreen = () => {
+  const router = useRouter();
+  const bankVerified=useSelector((state: RootState)=>state.profile.bankVerified)
+
   const header = () => {
-    const router = useRouter();
     return (
       <View style={styles.heading}>
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
@@ -82,9 +86,9 @@ const BavScreen = () => {
   return (
     <View style={styles.container}>
       {header()}
-      {title("Complete BAV in", " 45 seconds!")}
+      {title(bankVerified?"Your bank account is":"Complete BAV in", bankVerified?" Verified!": " 45 seconds!")}
       {steps()}
-      {button()}
+      {!bankVerified && button()}
     </View>
   );
 };
