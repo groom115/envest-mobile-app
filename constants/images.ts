@@ -29,4 +29,5 @@ export default {
   helpHeadset: require("../assets/images/help_headset.png"),
   phoneIcon: require("../assets/images/phone.png"),
   money: require("../assets/images/money.png"),
+  downArrow: require("../assets/images/downArrow.png"),
 };
