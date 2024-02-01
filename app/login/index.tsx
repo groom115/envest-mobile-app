@@ -30,7 +30,7 @@ const LoginScreen = () => {
                 userId: user.attributes["sub"],
                 name: user.attributes["custom:name"],
                 kycVerified: user.attributes["custom:kycVerified"] == "Y" ? true : false,
-                bavVerified: user.attributes["custom:bavVerified"] == "Y" ? true : false,
+                bankVerified: user.attributes["custom:bankVerified"] == "Y" ? true : false,
                 phone: user.attributes["custom:phone"]
             }));
             router.replace("/");

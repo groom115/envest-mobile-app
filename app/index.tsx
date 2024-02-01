@@ -51,7 +51,7 @@ const Main = () => {
           userId: currentUser.attributes["sub"],
           name: currentUser.attributes["custom:name"],
           kycVerified: currentUser.attributes["custom:kycVerified"] == "Y" ? true : false,
-          bavVerified: currentUser.attributes["custom:bavVerified"] == "Y" ? true : false,
+          bankVerified: currentUser.attributes["custom:bankVerified"] == "Y" ? true : false,
           phone: currentUser.attributes["custom:phone"]
       }));
     } catch(error) {

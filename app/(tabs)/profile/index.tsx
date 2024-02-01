@@ -131,7 +131,7 @@ const ProfileScreen = () => {
           "Bank Account Verification",
           images.currencyIcon,
           true,
-          profileData.bavVerified ? images.verified : images.notVerified,
+          profileData.bankVerified ? images.verified : images.notVerified,
           "",
           () => router.push("/profile/bav")
         )}
