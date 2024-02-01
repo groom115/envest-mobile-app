@@ -1,19 +1,23 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
-import images from "../../constants/images";
+import images from "../../../constants/images";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../global/store";
 
-const Balance = () => {
-  const header = () => {
+const WalletScreen = () => {
     const router = useRouter();
+    const {inrBalance}=useSelector((state: RootState)=> state.wallet);
+
+  const header = () => {
     return (
       <View style={styles.heading}>
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
             onPress={() => {
-              router.replace("/");
+              router.back();
             }}
-            activeOpacity={1}
+            activeOpacity={0.7}
           >
             <Image
               source={images.arrowLeft}
@@ -21,6 +25,7 @@ const Balance = () => {
               style={{ height: 24, width: 24 }}
             />
           </TouchableOpacity>
+          <Text style={styles.welcome}>envest</Text>
         </View>
         <View>
           <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
@@ -41,7 +46,7 @@ const Balance = () => {
       <View style={{ marginTop: 28, paddingHorizontal: 16 }}>
         <Text style={styles.text1}>INR Balance</Text>
         <Text style={styles.text2}>
-          ₹ 18,343{" "}
+          ₹ {inrBalance}{" "}
           <Text style={{ color: "white", fontSize: 12, lineHeight: 15 }}>
             available balance
           </Text>
@@ -218,6 +223,12 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     fontWeight: "600",
   },
+  welcome: {
+    color: "#FFD76F",
+    fontWeight: "600",
+    fontSize: 20,
+    lineHeight: 24,
+  },
 });
 
-export default Balance;
+export default WalletScreen;

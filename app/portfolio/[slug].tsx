@@ -55,9 +55,9 @@ const BlueChipScreen = () => {
         <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
             onPress={() => {
-              router.replace("/funds");
+              router.back();
             }}
-            activeOpacity={1}
+            activeOpacity={0.7}
           >
             <Image
               source={images.arrowLeft}
@@ -653,7 +653,7 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     backgroundColor: "black",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     bottom: 0,
   },
   tabBut: {

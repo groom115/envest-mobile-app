@@ -6,7 +6,7 @@ interface ProfileState {
 	emailVerified?: boolean;
 	name?: string;
 	kycVerified?: boolean;
-	bavVerified?: boolean;
+	bankVerified?: boolean;
 	//? Assuming that we will be capturing phone numbers in future
 	phone?: string;
 	phoneVerified?: boolean;
@@ -19,7 +19,7 @@ const loadProfileState = (): ProfileState => {
 		emailVerified: false,
 		name: '',
 		kycVerified: true,
-		bavVerified: true,
+		bankVerified: true,
 		phone: '',
 		phoneVerified: false,
 	};
@@ -38,7 +38,7 @@ const profileSlice = createSlice({
 			state.emailVerified = action.payload.emailVerified;
 			state.name = action.payload.name;
 			state.kycVerified = action.payload.kycVerified;
-			state.bavVerified = action.payload.bavVerified;
+			state.bankVerified = action.payload.bankVerified;
 			state.phone = action.payload.phone;
 			state.phoneVerified = action.payload.phoneVerified;
 		},
@@ -49,7 +49,7 @@ const profileSlice = createSlice({
 			state.emailVerified = false;
 			state.name = '';
 			state.kycVerified=false;
-			state.bavVerified=false;
+			state.bankVerified=false;
 			state.phone = '';
 			state.phoneVerified = false;
 		},

@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import images from "../../constants/images";
+import images from "../../../constants/images";
 import { useSelector } from "react-redux";
+import { useRouter } from "expo-router";
+import { RootState } from "../../../global/store";
 
 const ProfileScreen = () => {
-  const profileData = useSelector((state: any) => state.profile);
+  const {bankVerified, kycVerified, name: customerName} = useSelector((state: RootState) => state.profile);
+  const router=useRouter();
 
   const header = () => {
     return (
-      <TouchableOpacity style={styles.headerContainer} activeOpacity={0.7}>
+      <TouchableOpacity 
+      style={styles.headerContainer} activeOpacity={0.7}
+      onPress={() => {router.push('/profile/details')}}
+      >
         <View style={{ flexDirection: "row", gap: 16 }}>
           <View style={styles.profileImage}>
             <Text
@@ -20,11 +26,11 @@ const ProfileScreen = () => {
                 textAlign: "center",
               }}
             >
-              {profileData.name.charAt(0)}
+              {customerName?.charAt(0)}
             </Text>
           </View>
           <View style={{ justifyContent: "center" }}>
-            <Text style={styles.headerText1}>{profileData.name}</Text>
+            <Text style={styles.headerText1}>{customerName}</Text>
             <Text style={styles.headerText2}>Account details</Text>
           </View>
         </View>
@@ -51,16 +57,17 @@ const ProfileScreen = () => {
     logoIcon: any,
     prop: boolean,
     verifyIcon: any,
-    subtitle?: string
+    subtitle?: string,
+    onTilePress?: () => void
   ) => {
     return (
-      <TouchableOpacity style={styles.tabContainer} activeOpacity={1}>
+      <TouchableOpacity style={styles.tabContainer} activeOpacity={0.7} onPress={onTilePress}>
         <View style={{ flexDirection: "row", gap: 4 }}>
           <Image source={logoIcon} style={{ width: 16, height: 16 }} />
           <Text style={styles.tabText}>{title}</Text>
           <Text style={styles.tabText1}>{subtitle}</Text>
           {prop && (
-            <Image source={verifyIcon} style={{ width: 16, height: 16 }} />
+            <Image source={verifyIcon} style={{ width: 18, height: 18 }} />
           )}
         </View>
 
@@ -98,14 +105,18 @@ const ProfileScreen = () => {
           "KYC Verification",
           images.kycCheck,
           true,
-          profileData.kycVerified == "Y" ? images.verified : images.notVerified
+          kycVerified ? images.verified : images.notVerified,
+          "",
+          () => router.push("/profile/kyc")
         )}
         {seperator()}
         {tabs(
           "Bank Account Verification",
           images.currencyIcon,
           true,
-          profileData.bavVerified == "Y" ? images.verified : images.notVerified
+          bankVerified ? images.verified : images.notVerified,
+          "",
+          () => router.push("/profile/bav")
         )}
       </View>
     );
@@ -125,7 +136,7 @@ const ProfileScreen = () => {
           "Refer & Earn (for lifetime)",
           images.referIcon,
           false,
-          images.notVerified
+          images.notVerified,
         )}
       </View>
     );
@@ -141,8 +152,10 @@ const ProfileScreen = () => {
           images.walletIcon,
           false,
           images.notVerified,
-          "(UPI Deposits Available)"
+          "(UPI Deposits Available)",
+          () => router.push("/profile/wallet")
         )}
+        {seperator()}
         {seperator()}
         {tabs(
           "All investment orders",
@@ -181,7 +194,7 @@ const ProfileScreen = () => {
 
             alignItems: "center",
           }}
-          activeOpacity={1}
+          activeOpacity={0.7}
         >
           <Text style={styles.footerText}>About us</Text>
           <Image
@@ -191,7 +204,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
-          activeOpacity={1}
+          activeOpacity={0.7}
         >
           <Text style={styles.footerText}>FAQs</Text>
           <Image
@@ -201,7 +214,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
-          activeOpacity={1}
+          activeOpacity={0.7}
         >
           <Text style={styles.footerText}>Log out</Text>
           <Image
@@ -260,26 +273,27 @@ const styles = StyleSheet.create({
     marginTop: 28,
     backgroundColor: "#343434",
     borderRadius: 6,
+    paddingVertical:4
   },
   verifyContainer2: {
     backgroundColor: "#FFD76F",
     marginRight: 16,
     alignItems: "center",
-    width: 100,
-    height: 14,
+    width: 120,
+    height: 16,
     borderRadius: 5,
     top: -7,
   },
   propHeaderText: {
-    padding: 12,
+    padding: 10,
     color: "#979797",
     fontWeight: "500",
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 15,
   },
   tabContainer: {
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 10,
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
@@ -287,7 +301,7 @@ const styles = StyleSheet.create({
   tabText: {
     color: "white",
     fontWeight: "400",
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 15,
   },
   tabText1: {
@@ -299,23 +313,26 @@ const styles = StyleSheet.create({
   propContText: {
     color: "black",
     fontWeight: "500",
-    fontSize: 10,
+    fontSize: 12,
     lineHeight: 13,
+    marginTop: 2
   },
   referContainer: {
     marginHorizontal: 16,
     marginTop: 20,
     backgroundColor: "#343434",
     borderRadius: 6,
+    paddingVertical:4
   },
   transContainer: {
     marginHorizontal: 16,
     marginTop: 20,
     backgroundColor: "#343434",
     borderRadius: 6,
+    paddingVertical:4
   },
   footer: {
-    marginTop: 20,
+    marginTop: 24,
     marginHorizontal: 16,
     justifyContent: "space-between",
     flexDirection: "row",
@@ -323,8 +340,8 @@ const styles = StyleSheet.create({
   footerText: {
     color: "white",
     fontWeight: "400",
-    fontSize: 10,
-    lineHeight: 12,
+    fontSize: 14,
+    lineHeight: 16,
   },
 });
 
