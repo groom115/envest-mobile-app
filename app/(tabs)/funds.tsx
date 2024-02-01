@@ -17,8 +17,11 @@ import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
 import { envestBackend } from "../../api";
 import { Portfolio } from "../../model/basket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../global/store";
+import { useQuery } from "@tanstack/react-query";
+import { getInrWalletBalance } from "../../services/wallet.service";
+import { setWallet } from "../../global/slices/wallet";
 
 interface AppProps {}
 
@@ -36,7 +39,7 @@ const FundsScreen: React.FC<AppProps> = () => {
   const [getDonutData, setDonutData] = useState<number[]>([300, 9]);
   const [baskets, setBaskets] = useState<any>(null);
 
-  const { name: customerName } = useSelector(
+  const { name: customerName, userId } = useSelector(
     (state: RootState) => state.profile
   );
 
@@ -166,6 +169,21 @@ const FundsScreen: React.FC<AppProps> = () => {
       }
     }
   }, [getInvestmentModel, amount, selectedTenure, getStockType]);
+
+  const dispatch=useDispatch();
+
+  const {data: inrBalance, isSuccess} = useQuery({
+    queryKey: ["inr-balance"],
+    queryFn: () => getInrWalletBalance(userId)
+  })
+
+  if(isSuccess){
+    dispatch(
+      setWallet({
+        inrBalance: inrBalance
+      })
+    );
+  }
 
   const header = () => {
     return (

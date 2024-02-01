@@ -1,30 +1,13 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import images from "../../../constants/images";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
 import { RootState } from "../../../global/store";
-import { getInrWalletBalance } from "../../../services/wallet.service";
-import { setWallet } from "../../../global/slices/wallet";
 
 const ProfileScreen = () => {
-  const profileData = useSelector((state: RootState) => state.profile);
+  const {bankVerified, kycVerified, name: customerName} = useSelector((state: RootState) => state.profile);
   const router=useRouter();
-  const dispatch=useDispatch();
-
-  const {data: inrBalance, isSuccess} = useQuery({
-    queryKey: ["inr-balance"],
-    queryFn: () => getInrWalletBalance(profileData.userId)
-  })
-
-  if(isSuccess){
-    dispatch(
-      setWallet({
-        inrBalance: inrBalance
-      })
-    );
-  }
 
   const header = () => {
     return (
@@ -43,11 +26,11 @@ const ProfileScreen = () => {
                 textAlign: "center",
               }}
             >
-              {profileData.name?.charAt(0)}
+              {customerName?.charAt(0)}
             </Text>
           </View>
           <View style={{ justifyContent: "center" }}>
-            <Text style={styles.headerText1}>{profileData.name}</Text>
+            <Text style={styles.headerText1}>{customerName}</Text>
             <Text style={styles.headerText2}>Account details</Text>
           </View>
         </View>
@@ -122,7 +105,7 @@ const ProfileScreen = () => {
           "KYC Verification",
           images.kycCheck,
           true,
-          profileData.kycVerified ? images.verified : images.notVerified,
+          kycVerified ? images.verified : images.notVerified,
           "",
           () => router.push("/profile/kyc")
         )}
@@ -131,7 +114,7 @@ const ProfileScreen = () => {
           "Bank Account Verification",
           images.currencyIcon,
           true,
-          profileData.bankVerified ? images.verified : images.notVerified,
+          bankVerified ? images.verified : images.notVerified,
           "",
           () => router.push("/profile/bav")
         )}
