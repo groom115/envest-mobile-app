@@ -1,75 +1,88 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import images from "../../../constants/images";
-import { useRouter } from "expo-router";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../global/store";
-// import { WebView } from 'react-native-webview';
+import AppHeader from "../../../components/AppHeader";
+import { WebView, WebViewNavigation } from "react-native-webview";
+import { Auth } from "aws-amplify";
+import { setProfile } from "../../../global/slices/profile";
+import { getKycStartUrl } from "../../../services/kyc.service";
 
 const KycScreen = () => {
 
-  const router = useRouter();
-  const {userId, name}=useSelector((state: RootState)=>state.profile);
-  const kycVerified=useSelector((state: RootState)=>state.profile.kycVerified)
-
+  const {userId, name, kycVerified}=useSelector((state: RootState)=>state.profile);
   const [startKycUrl, setStartKycUrl]=useState<string>('');
+  const dispatch=useDispatch();
 
   const handlePressCompleteKyc=async()=>{
-    const startKycResponse=await axios.post('https://ind.idv.hyperverge.co/v1/link-kyc/start',{
-        workflowId: "OCR_Facematch_Text",
-        redirectUrl: "https://www.envest.money",
-        transactionId: userId,
-        inputs: {
-            "Name": name
-        }
-    },
-    {
-        headers: {
-            "appId": "fhkqxf",
-            "appKey": "gvyguja02rsx5t59wy54"
-        }
-    });
-    
-    console.log(startKycResponse.data.result.startKycUrl)
-    setStartKycUrl(startKycResponse.data.result.startKycUrl);
+    try{
+      const urlRes=await getKycStartUrl({
+        name: name ?? '',
+        transactionId: `${userId}-kyc`,
+        workflowId: 'OCR_Facematch_Text'
+      });
+      if(urlRes){
+        setStartKycUrl(urlRes);
+      }
+    } catch(error){
+      console.error(error);
+    }
   }
 
-  // if(startKycUrl){
-  //   return <WebView source={{ uri: startKycUrl}} />
-  // }
+  const updateUserProfileOnKycCompletion=async()=>{
+    try{
+      const currentUser=await Auth.currentAuthenticatedUser();
+      await Auth.updateUserAttributes(currentUser,{
+      'custom:kycVerified':"Y"
+    });
 
-  const header = () => {
-    return (
-      <View style={styles.heading}>
-        <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-          <TouchableOpacity
-            onPress={() => {
-              router.back();
-            }}
-            activeOpacity={0.7}
-          >
-            <Image
-              source={images.arrowLeft}
-              alt="back"
-              style={{ height: 24, width: 24 }}
-            />
-          </TouchableOpacity>
-          <Text style={styles.welcome}>envest</Text>
-        </View>
-        <View>
-          <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
-            <Image
-              source={images.help}
-              style={{ width: 20, height: 20 }}
-              alt="help"
-            />
-            <Text style={styles.help}>Help</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
+    const newUser= await Auth.currentAuthenticatedUser();
+    dispatch(
+      setProfile({
+        email:newUser.attributes["email"],
+        emailVerified: newUser.attributes["email_verified"],
+        userId: newUser.attributes["sub"],
+        name: newUser.attributes["custom:name"],
+        kycVerified: newUser.attributes["custom:kycVerified"] == "Y" ? true : false,
+        bankVerified: newUser.attributes["custom:bankVerified"] == "Y" ? true : false,
+        phone: newUser.attributes["custom:phone"]
+    }));
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  const handleRedirectionToApp = async(event: WebViewNavigation) => {
+    if(event.url.includes('https://www.envest.money')){
+      const kycStatus=event.url.split('&')[1].split('=')[1];
+      switch(kycStatus){
+        case "user_cancelled":
+          // TODO: Add a Popup/Feedback Component
+          break;
+        case "error":
+          // TODO: Add a Popup/Feedback Component and call Jarvis
+          break;
+        case "auto_declined":
+          // TODO: Add a Popup/Feedback Component
+        case "auto_approved":
+          await updateUserProfileOnKycCompletion();
+          break;
+        case "needs_review":
+          // TODO: Add a Popup/Feedback Component and call Jarvis
+          break;
+        default:
+          return;
+      }
+      setStartKycUrl('');
+    }
+  }
+
+  if(startKycUrl){
+    return <WebView 
+    source={{ uri: startKycUrl}} 
+    onNavigationStateChange={handleRedirectionToApp}
+    />
+  }
 
   const title = (title1: string, title2: string) => {
     return (
@@ -140,7 +153,7 @@ const KycScreen = () => {
     return (
       <TouchableOpacity
         style={{ borderRadius: 5, marginTop: 20, backgroundColor: "#FFD76F" }}
-        onPress={()=>handlePressCompleteKyc()}
+        onPress={handlePressCompleteKyc}
       >
         <Text style={styles.butText}>Complete your KYC</Text>
       </TouchableOpacity>
@@ -148,7 +161,7 @@ const KycScreen = () => {
   };
   return (
     <View style={styles.container}>
-      {header()}
+      <AppHeader showLogo />
       {title(kycVerified?"You are a KYC":"Complete KYC in", kycVerified?" Verified Envestor!":" 120 seconds!")}
       {steps()}
       {!kycVerified && button()}
