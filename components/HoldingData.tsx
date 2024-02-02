@@ -18,7 +18,7 @@ const HoldingData = ({data}: dataProps) => {
     return (<>
         <View style={[styles.row, {marginTop: 10, marginBottom: 5, marginRight: 16}]}>
         {Object.entries(data).map(([label, values], index) => (
-            <Text style={{ fontSize: 13, color:'#FFFFFF', fontWeight:'500'}}>{label}</Text>
+            <Text key={index} style={{ fontSize: 13, color:'#FFFFFF', fontWeight:'500'}}>{label}</Text>
         ))}
         </View>
       <FlatList

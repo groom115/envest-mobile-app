@@ -4,30 +4,9 @@ import { Text, View } from '../Themed';
 import ShowDataRowWise from './ShowDataRowWise';
 import images from '../../constants/images';
 import HoldingData from '../HoldingData';
+import { chargesProp, dataPropsOfDetailsToShowInKeyValue, detailsProp, holdingProp } from '../../model/transaction';
 
-interface dataProps{
-    detailsName: any,
-    value: any
-}
-interface detailsProp{
-    'Order ID' : string,
-    'Order Status' :string,
-    'Portfolio ID' : string,
-    'Order Type' : string,
-    'Time and Date' : string
-}
-interface holdingProp{
-    'Coins': any,
-    'Avg. Buy Price': any,
-    'Units': any
-}
-interface chargesProp{
-    'Expense Ratio (deducted on rebalance)': string,
-    'TDS (applicable only on sell orders)': string,
-    'Taker + Maker fee': string,
-    'Order Amount': string
-}
-const DetailsToShowInKeyValue = ({detailsName,value}: dataProps) => {
+const DetailsToShowInKeyValue = ({detailsName,value}: dataPropsOfDetailsToShowInKeyValue) => {
     const [details, setDetails] = useState(false);
     const [holdings, setHoldings] = useState(false);
     const [charges, setCharges] = useState(false);
@@ -145,7 +124,7 @@ const styles = StyleSheet.create({
     },
     textHeading: {
         fontSize: 14,
-        fontWeight: "200",
+        fontWeight: "400",
         width:80,
         height:18
     }

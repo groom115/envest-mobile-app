@@ -11,33 +11,10 @@ import {
   import { Text, View } from "../../components/Themed";
   import BlockDatalikeInvestmentPage from "../../components/Utils/BlockDatalikeInvestmentPage";
   import DetailsToShowInKeyValue from "../../components/Utils/DetailsToShowInKeyValue";
-  import { envestBackend } from "../../api";
   import InvestmentOrderServices from "../../api/investmentOrder.services";
-  import { data } from "../../data/OnBoardingData";
+import { transactionsData } from "../../model/transaction";
   
   interface AppProps {}
-  type transactionsData = {
-    transactions?: Transaction[];
-  };
-  type Transaction = {
-    amount: number;
-    completeOrderStatus: string;
-    completeOrderStatusDescription: string;
-    constituents: [];
-    constituentsCount: number;
-    createdAt: string;
-    currentStatus: string;
-    fees: [];
-    investedAmount: number;
-    orderCategory: string;
-    orderId: string;
-    platformName: string;
-    portfolioId: string;
-    sellingPrice: number;
-    soldTime: string;
-    totalOrderValue: number;
-    userid: string;
-  };
 
   const header = () => {
     const route = useRouter();
@@ -131,16 +108,14 @@ import {
       setBasketClicked(!basketClicked);
     };
 
-    useEffect(() => {
+    useEffect( () => {
+        const getDataOfAllInvestment = async() => {
         const getAllInvestmentDetails = InvestmentOrderServices.getAllInvestments();
-        getAllInvestmentDetails
-          .then((response) => {
-            setDetails(response.data);
-          })
-          .catch((error) =>
-            console.log("Error in getting all investments details")
-          );
-      }, []);
+        
+            setDetails(await getAllInvestmentDetails);
+        }
+        getDataOfAllInvestment();
+    }, []);
       return (
         <View style={styles.container}>
           {header()}
@@ -156,7 +131,6 @@ import {
                 {details?.transactions && (
                   <FlatList
                     data={details.transactions}
-                    // keyExtractor={(item) => item.orderId}
                     renderItem={({ item, index }: any) => (
                       <TouchableOpacity onPress={() => handleBasketPressed(item)}>
                         <BlockDatalikeInvestmentPage 
