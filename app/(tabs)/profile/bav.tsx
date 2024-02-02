@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     marginTop: 58,
-
     justifyContent: "space-between",
   },
   help: {
