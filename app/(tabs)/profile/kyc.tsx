@@ -17,7 +17,7 @@ const KycScreen = () => {
   const handlePressCompleteKyc=async()=>{
     try{
       const urlRes=await getKycStartUrl({
-        name: name ?? '',
+        userName: name ?? '',
         transactionId: `${userId}-kyc`,
         workflowId: 'OCR_Facematch_Text'
       });

@@ -1,5 +1,5 @@
 export interface GetKycStartUrlRequest {
-    name: string;
+    userName: string;
     transactionId: string;
     workflowId: string;
 }

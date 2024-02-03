@@ -16,7 +16,7 @@ const BavScreen = () => {
   const handlePressVerifyBankAccount=async()=>{
     try{
       const urlRes=await getKycStartUrl({
-        name: name ?? '',
+        userName: name ?? '',
         transactionId: `${userId}-bav`,
         workflowId: 'workflow_py56OZS'
       });
