@@ -17,7 +17,7 @@ import Investment from "../../components/PortfolioComponents/Investment";
 import FundDetails from "../../components/PortfolioComponents/FundDetails";
 import TaxImplication from "../../components/PortfolioComponents/TaxImplication";
 import { useRouter } from "expo-router";
-import { envestBackend } from "../../api";
+import { envestBackend } from "../../services";
 import PriceGraph from "../../components/PortfolioComponents/PriceGraph";
 import { ChartData, Portfolio } from "../../model/basket";
 import { useLocalSearchParams } from "expo-router";
@@ -518,7 +518,7 @@ const BlueChipScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: "#1e1e1e",
     flex: 1,
   },
   heading: {
@@ -651,7 +651,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     paddingHorizontal: 16,
     paddingVertical: 13,
-    backgroundColor: "black",
+    backgroundColor: "#141414",
     flexDirection: "row",
     justifyContent: "space-around",
     bottom: 0,

@@ -128,13 +128,13 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 12,
     lineHeight: 15,
-    fontWeight: "500",
+    fontWeight: "400",
   },
   text2: {
     color: "#FFD76F",
     fontSize: 14,
     lineHeight: 17,
-    fontWeight: "500",
+    fontWeight: "400",
   },
 });
 

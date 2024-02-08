@@ -15,7 +15,7 @@ import InvestmentModel from "../../components/HomeScreenComponents/InvestmentMod
 import PortfolioSelect from "../../components/HomeScreenComponents/PortfolioSelect";
 import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
-import { envestBackend } from "../../api";
+import { envestBackend } from "../../services";
 import { Portfolio } from "../../model/basket";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../global/store";
@@ -170,17 +170,17 @@ const FundsScreen: React.FC<AppProps> = () => {
     }
   }, [getInvestmentModel, amount, selectedTenure, getStockType]);
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-  const {data: inrBalance, isSuccess} = useQuery({
+  const { data: inrBalance, isSuccess } = useQuery({
     queryKey: ["inr-balance"],
-    queryFn: () => getInrWalletBalance(userId)
-  })
+    queryFn: () => getInrWalletBalance(userId),
+  });
 
-  if(isSuccess){
+  if (isSuccess) {
     dispatch(
       setWallet({
-        inrBalance: inrBalance
+        inrBalance: inrBalance,
       })
     );
   }
@@ -518,7 +518,7 @@ const FundsScreen: React.FC<AppProps> = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: "#1e1e1e",
     flex: 1,
   },
   heading: {
