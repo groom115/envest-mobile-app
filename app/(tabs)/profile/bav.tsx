@@ -28,7 +28,7 @@ const BavScreen = () => {
     }
   }
 
-  const updateUserProfileOnKycCompletion=async()=>{
+  const updateUserProfileOnBavCompletion=async()=>{
     try{
       const currentUser=await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(currentUser,{
@@ -64,7 +64,7 @@ const BavScreen = () => {
         case "auto_declined":
           // TODO: Add a Popup/Feedback Component
         case "auto_approved":
-          await updateUserProfileOnKycCompletion();
+          await updateUserProfileOnBavCompletion();
           break;
         case "needs_review":
           // TODO: Add a Popup/Feedback Component and call Jarvis
