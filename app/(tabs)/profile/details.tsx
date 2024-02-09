@@ -18,9 +18,9 @@ const ProfileDetailsScreen = () => {
 
   const handleUpdateName = async () => {
     try{
-      const user = await Auth.currentAuthenticatedUser();
+      const currentUser = await Auth.currentAuthenticatedUser();
 
-      await Auth.updateUserAttributes(user,{
+      await Auth.updateUserAttributes(currentUser,{
         'custom:name':name
       });
       const newUser = await Auth.currentAuthenticatedUser();
@@ -114,7 +114,7 @@ const ProfileDetailsScreen = () => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <AppHeader showLogo/>
       {details()}
     </View>
@@ -124,6 +124,11 @@ const ProfileDetailsScreen = () => {
 export default ProfileDetailsScreen
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "black",
+    flex: 1,
+    paddingHorizontal: 16,
+  },
   heading: {
     flexDirection:"row",
     justifyContent:"space-between", 

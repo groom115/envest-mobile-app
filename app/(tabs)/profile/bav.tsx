@@ -1,45 +1,87 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import images from "../../../constants/images";
-import { useRouter } from "expo-router";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../global/store";
+import AppHeader from "../../../components/AppHeader";
+import { getKycStartUrl } from "../../../services/kyc.service";
+import { Auth } from "aws-amplify";
+import { setProfile } from "../../../global/slices/profile";
+import WebView, { WebViewNavigation } from "react-native-webview";
 
 const BavScreen = () => {
-  const router = useRouter();
-  const bankVerified=useSelector((state: RootState)=>state.profile.bankVerified)
+  const {userId, name, bankVerified}=useSelector((state: RootState)=>state.profile);
+  const [startBavUrl, setStartBavUrl]=useState<string>('');
+  const dispatch=useDispatch();
 
-  const header = () => {
-    return (
-      <View style={styles.heading}>
-        <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-          <TouchableOpacity
-            onPress={() => {
-              router.back();
-            }}
-            activeOpacity={0.7}
-          >
-            <Image
-              source={images.arrowLeft}
-              alt="back"
-              style={{ height: 24, width: 24 }}
-            />
-          </TouchableOpacity>
-          <Text style={styles.welcome}>envest</Text>
-        </View>
-        <View>
-          <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
-            <Image
-              source={images.help}
-              style={{ width: 20, height: 20 }}
-              alt="help"
-            />
-            <Text style={styles.help}>Help</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
+  const handlePressVerifyBankAccount=async()=>{
+    try{
+      const urlRes=await getKycStartUrl({
+        userName: name ?? '',
+        transactionId: `${userId}-bav`,
+        workflowId: 'workflow_py56OZS'
+      });
+      if(urlRes){
+        setStartBavUrl(urlRes);
+      }
+    } catch(error){
+      console.error(error);
+    }
+  }
+
+  const updateUserProfileOnBavCompletion=async()=>{
+    try{
+      const currentUser=await Auth.currentAuthenticatedUser();
+      await Auth.updateUserAttributes(currentUser,{
+      'custom:bankVerified':"Y"
+    });
+
+    const newUser= await Auth.currentAuthenticatedUser();
+    dispatch(
+      setProfile({
+        email:newUser.attributes["email"],
+        emailVerified: newUser.attributes["email_verified"],
+        userId: newUser.attributes["sub"],
+        name: newUser.attributes["custom:name"],
+        kycVerified: newUser.attributes["custom:kycVerified"] == "Y" ? true : false,
+        bankVerified: newUser.attributes["custom:bankVerified"] == "Y" ? true : false,
+        phone: newUser.attributes["custom:phone"]
+    }));
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  const handleRedirectionToApp = async(event: WebViewNavigation) => {
+    if(event.url.includes('https://www.envest.money')){
+      const kycStatus=event.url.split('&')[1].split('=')[1];
+      switch(kycStatus){
+        case "user_cancelled":
+          // TODO: Add a Popup/Feedback Component
+          break;
+        case "error":
+          // TODO: Add a Popup/Feedback Component and call Jarvis
+          break;
+        case "auto_declined":
+          // TODO: Add a Popup/Feedback Component
+        case "auto_approved":
+          await updateUserProfileOnBavCompletion();
+          break;
+        case "needs_review":
+          // TODO: Add a Popup/Feedback Component and call Jarvis
+          break;
+        default:
+          return;
+      }
+      setStartBavUrl('');
+    }
+  }
+
+  if(startBavUrl){
+    return <WebView 
+    source={{ uri: startBavUrl}} 
+    onNavigationStateChange={handleRedirectionToApp}
+    />
+  }
 
   const title = (title1: string, title2: string) => {
     return (
@@ -78,6 +120,7 @@ const BavScreen = () => {
     return (
       <TouchableOpacity
         style={{ borderRadius: 5, marginTop: 32, backgroundColor: "#FFD76F" }}
+        onPress={handlePressVerifyBankAccount}
       >
         <Text style={styles.butText}>Verify Bank Account</Text>
       </TouchableOpacity>
@@ -85,7 +128,7 @@ const BavScreen = () => {
   };
   return (
     <View style={styles.container}>
-      {header()}
+      <AppHeader showLogo/>
       {title(bankVerified?"Your bank account is":"Complete BAV in", bankVerified?" Verified!": " 45 seconds!")}
       {steps()}
       {!bankVerified && button()}
