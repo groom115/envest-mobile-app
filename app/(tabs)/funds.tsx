@@ -15,7 +15,7 @@ import InvestmentModel from "../../components/HomeScreenComponents/InvestmentMod
 import PortfolioSelect from "../../components/HomeScreenComponents/PortfolioSelect";
 import TenureSelect from "../../components/HomeScreenComponents/TenureSelect";
 import InvestmentInput from "../../components/HomeScreenComponents/InvestmentInput";
-import { envestBackend } from "../../services";
+import { envestBackend } from "../../api";
 import { Portfolio } from "../../model/basket";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../global/store";

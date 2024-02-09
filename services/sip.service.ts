@@ -1,4 +1,4 @@
-import { envestBackend } from ".";
+import { envestBackend } from "../api";
 import { SIP_URLS } from "../constants/Api";
 import { SipList } from "../model/sip";
 

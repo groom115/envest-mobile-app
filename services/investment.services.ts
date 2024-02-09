@@ -1,4 +1,4 @@
-import { envestBackend } from ".";
+import { envestBackend } from "../api";
 import { INVESTMENT_URLS } from "../constants/Api";
 import { InvestmentOverview } from "../model/investment";
 import { transactionsData } from "../model/transaction";
@@ -11,7 +11,7 @@ const InvestmentServices = {
       );
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error();
       return {};
     }
   },
@@ -25,7 +25,7 @@ const InvestmentServices = {
 
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error();
       return null;
     }
   },

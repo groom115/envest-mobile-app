@@ -17,7 +17,7 @@ import Investment from "../../components/PortfolioComponents/Investment";
 import FundDetails from "../../components/PortfolioComponents/FundDetails";
 import TaxImplication from "../../components/PortfolioComponents/TaxImplication";
 import { useRouter } from "expo-router";
-import { envestBackend } from "../../services";
+import { envestBackend } from "../../api";
 import PriceGraph from "../../components/PortfolioComponents/PriceGraph";
 import { ChartData, Portfolio } from "../../model/basket";
 import { useLocalSearchParams } from "expo-router";

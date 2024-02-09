@@ -1,4 +1,4 @@
-import { envestBackend } from ".";
+import { envestBackend } from "../api";
 
 export const getInrWalletBalance = async (userId: string): Promise<number> => {
   try {
