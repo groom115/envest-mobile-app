@@ -232,7 +232,7 @@ const PriceGraph = ({ chartData }: AppProps) => {
               styles.tenureBut,
               tenure === "3Y"
                 ? { backgroundColor: "#FFF3D3" }
-                : { backgroundColor: "black" },
+                : { backgroundColor: "#1e1e1e" },
             ]}
             onPress={() => {
               setTenure("3Y");

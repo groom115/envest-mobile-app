@@ -2,59 +2,64 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../global/store";
-import AppHeader from "../../../components/AppHeader";
+import GenericHeader from "../../../components/GenericComponents/GenericHeader";
 import { getKycStartUrl } from "../../../services/kyc.service";
 import { Auth } from "aws-amplify";
 import { setProfile } from "../../../global/slices/profile";
 import WebView, { WebViewNavigation } from "react-native-webview";
 
 const BavScreen = () => {
-  const {userId, name, bankVerified}=useSelector((state: RootState)=>state.profile);
-  const [startBavUrl, setStartBavUrl]=useState<string>('');
-  const dispatch=useDispatch();
+  const { userId, name, bankVerified } = useSelector(
+    (state: RootState) => state.profile
+  );
+  const [startBavUrl, setStartBavUrl] = useState<string>("");
+  const dispatch = useDispatch();
 
-  const handlePressVerifyBankAccount=async()=>{
-    try{
-      const urlRes=await getKycStartUrl({
-        userName: name ?? '',
+  const handlePressVerifyBankAccount = async () => {
+    try {
+      const urlRes = await getKycStartUrl({
+        userName: name ?? "",
         transactionId: `${userId}-bav`,
-        workflowId: 'workflow_py56OZS'
+        workflowId: "workflow_py56OZS",
       });
-      if(urlRes){
+      if (urlRes) {
         setStartBavUrl(urlRes);
       }
-    } catch(error){
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const updateUserProfileOnBavCompletion=async()=>{
-    try{
-      const currentUser=await Auth.currentAuthenticatedUser();
-      await Auth.updateUserAttributes(currentUser,{
-      'custom:bankVerified':"Y"
-    });
+  const updateUserProfileOnBavCompletion = async () => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      await Auth.updateUserAttributes(currentUser, {
+        "custom:bankVerified": "Y",
+      });
 
-    const newUser= await Auth.currentAuthenticatedUser();
-    dispatch(
-      setProfile({
-        email:newUser.attributes["email"],
-        emailVerified: newUser.attributes["email_verified"],
-        userId: newUser.attributes["sub"],
-        name: newUser.attributes["custom:name"],
-        kycVerified: newUser.attributes["custom:kycVerified"] == "Y" ? true : false,
-        bankVerified: newUser.attributes["custom:bankVerified"] == "Y" ? true : false,
-        phone: newUser.attributes["custom:phone"]
-    }));
-    } catch(error) {
+      const newUser = await Auth.currentAuthenticatedUser();
+      dispatch(
+        setProfile({
+          email: newUser.attributes["email"],
+          emailVerified: newUser.attributes["email_verified"],
+          userId: newUser.attributes["sub"],
+          name: newUser.attributes["custom:name"],
+          kycVerified:
+            newUser.attributes["custom:kycVerified"] == "Y" ? true : false,
+          bankVerified:
+            newUser.attributes["custom:bankVerified"] == "Y" ? true : false,
+          phone: newUser.attributes["custom:phone"],
+        })
+      );
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const handleRedirectionToApp = async(event: WebViewNavigation) => {
-    if(event.url.includes('https://www.envest.money')){
-      const kycStatus=event.url.split('&')[1].split('=')[1];
-      switch(kycStatus){
+  const handleRedirectionToApp = async (event: WebViewNavigation) => {
+    if (event.url.includes("https://www.envest.money")) {
+      const kycStatus = event.url.split("&")[1].split("=")[1];
+      switch (kycStatus) {
         case "user_cancelled":
           // TODO: Add a Popup/Feedback Component
           break;
@@ -62,7 +67,7 @@ const BavScreen = () => {
           // TODO: Add a Popup/Feedback Component and call Jarvis
           break;
         case "auto_declined":
-          // TODO: Add a Popup/Feedback Component
+        // TODO: Add a Popup/Feedback Component
         case "auto_approved":
           await updateUserProfileOnBavCompletion();
           break;
@@ -72,15 +77,17 @@ const BavScreen = () => {
         default:
           return;
       }
-      setStartBavUrl('');
+      setStartBavUrl("");
     }
-  }
+  };
 
-  if(startBavUrl){
-    return <WebView 
-    source={{ uri: startBavUrl}} 
-    onNavigationStateChange={handleRedirectionToApp}
-    />
+  if (startBavUrl) {
+    return (
+      <WebView
+        source={{ uri: startBavUrl }}
+        onNavigationStateChange={handleRedirectionToApp}
+      />
+    );
   }
 
   const title = (title1: string, title2: string) => {
@@ -100,7 +107,7 @@ const BavScreen = () => {
           marginTop: 20,
           padding: 16,
           borderRadius: 5,
-          paddingLeft: 20
+          paddingLeft: 20,
         }}
       >
         <View style={{ display: "flex", flexDirection: "row", gap: 24 }}>
@@ -108,7 +115,7 @@ const BavScreen = () => {
           <View>
             <Text style={styles.stepText1}>Bank Details Verification</Text>
             <Text style={styles.stepText2}>
-                Provide Account Number & IFSC Code.
+              Provide Account Number & IFSC Code.
             </Text>
           </View>
         </View>
@@ -128,8 +135,11 @@ const BavScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <AppHeader showLogo/>
-      {title(bankVerified?"Your bank account is":"Complete BAV in", bankVerified?" Verified!": " 45 seconds!")}
+      <GenericHeader showLogo />
+      {title(
+        bankVerified ? "Your bank account is" : "Complete BAV in",
+        bankVerified ? " Verified!" : " 45 seconds!"
+      )}
       {steps()}
       {!bankVerified && button()}
     </View>
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 20,
-    marginBottom:4
+    marginBottom: 4,
   },
   stepText2: {
     color: "#979797",

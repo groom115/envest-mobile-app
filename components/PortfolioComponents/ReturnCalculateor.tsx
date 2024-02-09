@@ -221,7 +221,7 @@ const ReturnCalculator: React.FC<AppProps> = ({ data }) => {
                 styles.tenureBut,
                 tenure === "1M"
                   ? { backgroundColor: "#FFF3D3" }
-                  : { backgroundColor: "black" },
+                  : { backgroundColor: "#1e1e1e" },
               ]}
               onPress={() => {
                 setTenure("1M");
@@ -242,7 +242,7 @@ const ReturnCalculator: React.FC<AppProps> = ({ data }) => {
                 styles.tenureBut,
                 tenure === "3M"
                   ? { backgroundColor: "#FFF3D3" }
-                  : { backgroundColor: "black" },
+                  : { backgroundColor: "#1e1e1e" },
               ]}
               onPress={() => {
                 setTenure("3M");
@@ -263,7 +263,7 @@ const ReturnCalculator: React.FC<AppProps> = ({ data }) => {
                 styles.tenureBut,
                 tenure === "6M"
                   ? { backgroundColor: "#FFF3D3" }
-                  : { backgroundColor: "black" },
+                  : { backgroundColor: "#1e1e1e" },
               ]}
               onPress={() => {
                 setTenure("6M");
@@ -284,7 +284,7 @@ const ReturnCalculator: React.FC<AppProps> = ({ data }) => {
                 styles.tenureBut,
                 tenure === "3Y"
                   ? { backgroundColor: "#FFF3D3" }
-                  : { backgroundColor: "black" },
+                  : { backgroundColor: "#1e1e1e" },
               ]}
               onPress={() => {
                 setTenure("3Y");
@@ -305,7 +305,7 @@ const ReturnCalculator: React.FC<AppProps> = ({ data }) => {
                 styles.tenureBut,
                 tenure === "5Y"
                   ? { backgroundColor: "#FFF3D3" }
-                  : { backgroundColor: "black" },
+                  : { backgroundColor: "#1e1e1e" },
               ]}
               onPress={() => {
                 setTenure("5Y");
@@ -330,7 +330,7 @@ const ReturnCalculator: React.FC<AppProps> = ({ data }) => {
           <Text style={styles.text3}>
             Would have become{" "}
             <Text style={{ color: "#FFD76F" }}>₹ {returns}</Text>{" "}
-            <Text style={{ color: "#28FFA4" }}>({getAnnualRate})</Text>
+            <Text style={{ color: "#28FFA4" }}>({getAnnualRate}%)</Text>
           </Text>
         </View>
       </View>
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   tenureBut: {
-    width: 30,
+    width: 36,
     borderRadius: 6,
     borderColor: "#FFF3D3",
     borderWidth: 1,
