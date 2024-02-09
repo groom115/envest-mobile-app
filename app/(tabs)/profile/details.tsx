@@ -114,7 +114,7 @@ const ProfileDetailsScreen = () => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <AppHeader showLogo/>
       {details()}
     </View>
@@ -124,6 +124,11 @@ const ProfileDetailsScreen = () => {
 export default ProfileDetailsScreen
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "black",
+    flex: 1,
+    paddingHorizontal: 16,
+  },
   heading: {
     flexDirection:"row",
     justifyContent:"space-between", 
