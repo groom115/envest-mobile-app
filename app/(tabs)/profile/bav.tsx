@@ -16,7 +16,7 @@ const BavScreen = () => {
   const [startBavUrl, setStartBavUrl] = useState<string>("");
   const dispatch = useDispatch();
 
-  const { data: dbBavUrl, isSuccess } = useQuery({
+  const { data: dbBavUrl, isSuccess, refetch: refetchBavUrl } = useQuery({
     queryKey: ["bav-url-db"],
     queryFn: () => getKycStartUrlFromDb(`${userId}-bav`)
   });
@@ -88,6 +88,7 @@ const BavScreen = () => {
           return;
       }
       setStartBavUrl("");
+      refetchBavUrl();
     }
   };
 

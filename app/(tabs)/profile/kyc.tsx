@@ -16,7 +16,7 @@ const KycScreen = () => {
   const [startKycUrl, setStartKycUrl] = useState<string>("");
   const dispatch = useDispatch();
 
-  const { data: dbKycUrl, isSuccess } = useQuery({
+  const { data: dbKycUrl, isSuccess, refetch: refetchKycUrl } = useQuery({
     queryKey: ["kyc-url-db"],
     queryFn: () => getKycStartUrlFromDb(`${userId}-kyc`)
   });
@@ -88,6 +88,7 @@ const KycScreen = () => {
           return;
       }
       setStartKycUrl("");
+      refetchKycUrl();
     }
   };
 
