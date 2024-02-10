@@ -6,7 +6,8 @@ import GenericHeader from "../../../components/GenericComponents/GenericHeader";
 import { WebView, WebViewNavigation } from "react-native-webview";
 import { Auth } from "aws-amplify";
 import { setProfile } from "../../../global/slices/profile";
-import { getKycStartUrl } from "../../../services/kyc.service";
+import { getKycStartUrlFromDb, saveAndGetKycStartUrl } from "../../../services/kyc.service";
+import { useQuery } from "@tanstack/react-query";
 
 const KycScreen = () => {
   const { userId, name, kycVerified } = useSelector(
@@ -15,15 +16,24 @@ const KycScreen = () => {
   const [startKycUrl, setStartKycUrl] = useState<string>("");
   const dispatch = useDispatch();
 
+  const { data: dbKycUrl, isSuccess } = useQuery({
+    queryKey: ["kyc-url-db"],
+    queryFn: () => getKycStartUrlFromDb(`${userId}-kyc`)
+  });
+
   const handlePressCompleteKyc = async () => {
     try {
-      const urlRes = await getKycStartUrl({
-        userName: name ?? "",
-        transactionId: `${userId}-kyc`,
-        workflowId: "OCR_Facematch_Text",
-      });
-      if (urlRes) {
-        setStartKycUrl(urlRes);
+      if (isSuccess && dbKycUrl!==undefined){
+        setStartKycUrl(dbKycUrl);
+      } else{
+        const urlRes = await saveAndGetKycStartUrl({
+          userName: name ?? "",
+          transactionId: `${userId}-kyc`,
+          workflowId: "OCR_Facematch_Text",
+        });
+        if (urlRes) {
+          setStartKycUrl(urlRes);
+        }
       }
     } catch (error) {
       console.error(error);

@@ -15,3 +15,12 @@ export const SIP_URLS = {
   GET_SIP: (userId: string) => `/sip/user?userid=${userId}`,
   EDIT_SIP: () => "/sip/edit",
 };
+
+export const KYC_URLS = {
+  SAVE_AND_GET_KYC_URL: () => "authentication/v1/profile/kyc/start",
+  GET_KYC_URL_FROM_DB: (transactionId: string) => `authentication/v1/profile/kyc/start?transactionId=${transactionId}`,
+}
+
+export const WALLET_URLS = {
+  GET_INR_WALLET_BALANCE: (userId: string) => `wallet/transactions/inr/balance?userid=${userId}`,
+}

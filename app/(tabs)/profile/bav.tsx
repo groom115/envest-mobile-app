@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../global/store";
 import GenericHeader from "../../../components/GenericComponents/GenericHeader";
-import { getKycStartUrl } from "../../../services/kyc.service";
+import { getKycStartUrlFromDb, saveAndGetKycStartUrl } from "../../../services/kyc.service";
 import { Auth } from "aws-amplify";
 import { setProfile } from "../../../global/slices/profile";
 import WebView, { WebViewNavigation } from "react-native-webview";
+import { useQuery } from "@tanstack/react-query";
 
 const BavScreen = () => {
   const { userId, name, bankVerified } = useSelector(
@@ -15,15 +16,24 @@ const BavScreen = () => {
   const [startBavUrl, setStartBavUrl] = useState<string>("");
   const dispatch = useDispatch();
 
+  const { data: dbBavUrl, isSuccess } = useQuery({
+    queryKey: ["bav-url-db"],
+    queryFn: () => getKycStartUrlFromDb(`${userId}-bav`)
+  });
+
   const handlePressVerifyBankAccount = async () => {
     try {
-      const urlRes = await getKycStartUrl({
-        userName: name ?? "",
-        transactionId: `${userId}-bav`,
-        workflowId: "workflow_py56OZS",
-      });
-      if (urlRes) {
-        setStartBavUrl(urlRes);
+      if (isSuccess && dbBavUrl!==undefined){
+        setStartBavUrl(dbBavUrl);
+      } else{
+        const urlRes = await saveAndGetKycStartUrl({
+          userName: name ?? "",
+          transactionId: `${userId}-bav`,
+          workflowId: "workflow_py56OZS",
+        });
+        if (urlRes) {
+          setStartBavUrl(urlRes);
+        }
       }
     } catch (error) {
       console.error(error);

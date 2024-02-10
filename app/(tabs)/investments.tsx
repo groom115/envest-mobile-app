@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import images from "../../constants/images";
 import { useRouter } from "expo-router";
-import InvestmentServices from "../../services/investment.services";
+import InvestmentServices from "../../services/investment.service";
 import { useSelector } from "react-redux";
 import { RootState } from "../../global/store";
 import {

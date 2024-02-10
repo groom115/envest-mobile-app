@@ -11,7 +11,7 @@ import { useRouter } from "expo-router";
 import { Text, View } from "../../components/Themed";
 import BlockDatalikeInvestmentPage from "../../components/Utils/BlockDatalikeInvestmentPage";
 import DetailsToShowInKeyValue from "../../components/Utils/DetailsToShowInKeyValue";
-import InvestmentServices from "../../services/investment.services";
+import InvestmentServices from "../../services/investment.service";
 import { transactionsData } from "../../model/transaction";
 
 interface AppProps {}

@@ -1,3 +1,3 @@
-interface GetWalletDataResponse {
+export interface GetWalletDataResponse {
     walletBalance: number | string;
 }
