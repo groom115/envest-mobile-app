@@ -48,21 +48,27 @@ const styles = StyleSheet.create({
     container:{
         marginTop: 10,
         marginBottom: 4,
-        marginLeft: 16
+        marginLeft: 16,
+        backgroundColor: "#000000"
     },
     textStyle: { 
         fontSize: 10, 
-        fontWeight: "400"
+        fontWeight: "400",
+        backgroundColor: "#000000",
+        color:"#979797"
     },
     fund:{
         flexDirection:"row",
         justifyContent: 'space-between',
         marginTop: 10,
-        marginRight: 16
+        marginRight: 16,
+        backgroundColor: "#000000"
     },
     fundStyle:{
         fontSize: 14,
         fontWeight: "400",
+        backgroundColor: "#000000",
+        color: "#FFFFFF"
     },
     greenDot: {
         width: 8,

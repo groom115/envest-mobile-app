@@ -161,7 +161,9 @@ const ProfileScreen = () => {
           "All investment orders",
           images.ordersIcon,
           false,
-          images.verified
+          images.verified,
+          "",
+          () => router.push("/profile/investment-order")
         )}
       </View>
     );

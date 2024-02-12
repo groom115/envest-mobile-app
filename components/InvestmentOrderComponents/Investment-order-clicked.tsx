@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, TouchableOpacity, Image, Animated } from 'react-native';
 import { Text, View } from '../Themed';
-import ShowDataRowWise from './ShowDataRowWise';
+import ShowDataRowWise from './Investment-order-DetailandCharges';
 import images from '../../constants/images';
-import HoldingData from '../HoldingData';
+import HoldingData from './Investment-order-holding';
 import { chargesProp, dataPropsOfDetailsToShowInKeyValue, detailsProp, holdingProp } from '../../model/transaction';
 
 const DetailsToShowInKeyValue = ({detailsName,value}: dataPropsOfDetailsToShowInKeyValue) => {

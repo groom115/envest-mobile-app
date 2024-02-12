@@ -22,10 +22,13 @@ container:{
     flexDirection: 'column',
     marginTop: 6,
     marginRight: 16,
+    backgroundColor: "#000000"
 },
 textForDisplay: {
     marginTop: 2,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    backgroundColor: "#000000",
+    color: "#FFFFFF"
 }
 })

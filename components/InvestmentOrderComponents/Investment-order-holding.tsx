@@ -16,7 +16,7 @@ const HoldingData = ({data}: dataProps) => {
     );
   
     return (<>
-        <View style={[styles.row, {marginTop: 10, marginBottom: 5, marginRight: 16}]}>
+        <View style={[styles.row, {marginTop: 10, marginBottom: 5, marginRight: 16, backgroundColor: "#000000"}]}>
         {Object.entries(data).map(([label, values], index) => (
             <Text key={index} style={{ fontSize: 13, color:'#FFFFFF', fontWeight:'500'}}>{label}</Text>
         ))}
@@ -38,14 +38,16 @@ const HoldingData = ({data}: dataProps) => {
     },
     column: {
       flexDirection: 'column',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      backgroundColor: "#000000"
     },
     cell: {
       justifyContent: 'space-between',
-      marginRight: 50
+      marginRight: 50,
+      backgroundColor: "#000000"
     },
     textDisplay: {
-        fontSize:12, fontWeight:"400" ,width:80 ,height:14, color: 'white'
+      fontSize:12, fontWeight:"400" ,width:80 ,height:14, color: '#FFFFFF'
     }
   });
 export default HoldingData
