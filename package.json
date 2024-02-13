@@ -24,6 +24,7 @@
     "aws-amplify": "5.0.22",
     "axios": "^1.6.2",
     "expo": "~50.0.5",
+    "expo-clipboard": "~5.0.1",
     "expo-font": "~11.10.2",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.6",

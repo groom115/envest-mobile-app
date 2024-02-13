@@ -16,11 +16,17 @@ export const SIP_URLS = {
   EDIT_SIP: () => "/sip/edit",
 };
 
+export const REFERRAL = {
+  GET_REFERRAL_DETAILS: () => "/referral/details",
+  SEND_REFERRAL: () => "/referral/referrer/save",
+};
 export const KYC_URLS = {
   SAVE_AND_GET_KYC_URL: () => "authentication/v1/profile/kyc/start",
-  GET_KYC_URL_FROM_DB: (transactionId: string) => `authentication/v1/profile/kyc/start?transactionId=${transactionId}`,
-}
+  GET_KYC_URL_FROM_DB: (transactionId: string) =>
+    `authentication/v1/profile/kyc/start?transactionId=${transactionId}`,
+};
 
 export const WALLET_URLS = {
-  GET_INR_WALLET_BALANCE: (userId: string) => `wallet/transactions/inr/balance?userid=${userId}`,
-}
+  GET_INR_WALLET_BALANCE: (userId: string) =>
+    `wallet/transactions/inr/balance?userid=${userId}`,
+};

@@ -286,8 +286,8 @@ const FundsScreen: React.FC<AppProps> = () => {
             </Text>
             <TouchableOpacity
               style={styles.setupBut}
-              // TODO: Navigate to Refer Screen
-              // onPress={() => router.push("/refer")}
+              onPress={() => router.push("/refer")}
+              activeOpacity={1}
             >
               <Text style={styles.setupText}>Start Earning</Text>
             </TouchableOpacity>
