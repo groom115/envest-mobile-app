@@ -52,6 +52,7 @@ import { Text, View } from "../../../components/Themed";
     const [basketClicked, setBasketClicked] = useState(false);
     const [fundNameGotClicked, setFundNameGotClicked] = useState<any>();
     const [details, setDetails] = useState<transactionsData | null>(null);
+    const [keyForRenderItems, setKeyForRenderItems] = useState<string>("");
     const investmentBasket = ["Blue-Chip Crypto Fund", "Stable Fund"];
     const investmentBasketTypeOfData = ["Details", "Holdings", "Charges"];
   
@@ -105,6 +106,7 @@ import { Text, View } from "../../../components/Themed";
   
     const handleBasketPressed = (itemClicked: any) => {
       setFundNameGotClicked(itemClicked);
+      setKeyForRenderItems(itemClicked.orderId);
       setBasketClicked(!basketClicked);
     };
   
@@ -151,6 +153,7 @@ import { Text, View } from "../../../components/Themed";
               <TouchableOpacity onPress={() => setBasketClicked(!basketClicked)}>
                 <BlockDatalikeInvestmentPage
                   basketClicked={basketClicked}
+                  key={keyForRenderItems}
                   date={portfolioBoughtDate(fundNameGotClicked.createdAt)}
                   fundName={fundnameOfBasket(fundNameGotClicked.portfolioId)}
                   amountInvestedInFund={fundNameGotClicked.investedAmount}
@@ -162,14 +165,13 @@ import { Text, View } from "../../../components/Themed";
               <View style={styles.line}></View>
               {fundNameGotClicked &&
                 investmentBasketTypeOfData.map((item, index) => (
-                  <>
+                  <React.Fragment key={index}>
                     <DetailsToShowInKeyValue
-                      key={index}
                       detailsName={item}
                       value={fundNameGotClicked}
                     />
                     <View style={styles.line}></View>
-                  </>
+                  </React.Fragment>
                 ))}
             </>
           )}
