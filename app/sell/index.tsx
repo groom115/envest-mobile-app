@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   TextInput,
 } from "react-native";
@@ -12,8 +11,7 @@ import { useRouter } from "expo-router";
 import { Entypo } from "@expo/vector-icons";
 import GenericHeader from "../../components/GenericComponents/GenericHeader";
 
-const SellBasket = () => {
-  const router = useRouter();
+const SellScreen = () => {
   const [wholeAmount, setWholeAmount] = useState<boolean>(true);
 
   const title = () => {
@@ -294,4 +292,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SellBasket;
+export default SellScreen;

@@ -1,10 +1,10 @@
 import React from "react"
 import { View } from "../Themed"
-import { Text, TouchableOpacity, StyleSheet } from "react-native"
+import { Text, StyleSheet } from "react-native"
 interface dataProps{
     data: any
 }
-const ShowDataRowWise = ({data}: dataProps) => {
+const InvestmentOrderRowWiseData = ({data}: dataProps) => {
     return (
         <View style={styles.container}>
             {Object.keys(data).map((key, index)=>(
@@ -16,7 +16,7 @@ const ShowDataRowWise = ({data}: dataProps) => {
     </View>
 )
 }
-export default ShowDataRowWise;
+export default InvestmentOrderRowWiseData;
 const styles = StyleSheet.create({
 container:{
     flexDirection: 'column',

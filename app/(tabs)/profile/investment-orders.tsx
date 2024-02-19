@@ -1,54 +1,19 @@
 import {
-    Image,
-    ScrollView,
     StyleSheet,
     TouchableOpacity,
     FlatList,
   } from "react-native";
   import React, { useEffect, useState } from "react";
-  import images from "../../../constants/images";
-  import { useRouter } from "expo-router";
-  import BlockDatalikeInvestmentPage from "../../../components/InvestmentOrderComponents/Investment-order-list";
-  import DetailsToShowInKeyValue from "../../../components/InvestmentOrderComponents/Investment-order-clicked";
+  import InvestmentOrderList from "../../../components/InvestmentOrderComponents/InvestmentOrderList";
+  import InvestmentDetails from "../../../components/InvestmentOrderComponents/InvestmentDetails";
   import InvestmentServices from "../../../services/investment.service";
   import { transactionsData } from "../../../model/transaction";
 import { Text, View } from "../../../components/Themed";
+import GenericHeader from "../../../components/GenericComponents/GenericHeader";
   
   interface AppProps {}
   
-  const header = () => {
-    const route = useRouter();
-    return (
-      <View style={styles.heading}>
-        <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-          <TouchableOpacity
-            onPress={() => {
-              route.back();
-            }}
-            activeOpacity={1}
-          >
-            <Image
-              source={images.arrowLeft}
-              alt="back"
-              style={{ height: 24, width: 24 }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
-            <Image
-              source={images.help}
-              alt="help"
-              style={{ height: 20, width: 20 }}
-            />
-            <Text style={styles.help}>Help</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-  
-  const InvestmentOrderScreen: React.FC<AppProps> = () => {
+  const InvestmentOrdersScreen: React.FC<AppProps> = () => {
     const [basketClicked, setBasketClicked] = useState(false);
     const [fundNameGotClicked, setFundNameGotClicked] = useState<any>();
     const [details, setDetails] = useState<transactionsData | null>(null);
@@ -120,7 +85,7 @@ import { Text, View } from "../../../components/Themed";
     }, []);
     return (
       <View style={styles.container}>
-        {header()}
+        <GenericHeader showLogo/>
         <View>
           <Text style={styles.order}>
             {!basketClicked ? "All Investment Orders" : "Order Details"}
@@ -135,7 +100,7 @@ import { Text, View } from "../../../components/Themed";
                   data={details.transactions}
                   renderItem={({ item, index }: any) => (
                     <TouchableOpacity onPress={() => handleBasketPressed(item)}>
-                      <BlockDatalikeInvestmentPage
+                      <InvestmentOrderList
                         basketClicked={basketClicked}
                         key={item.orderId}
                         date={portfolioBoughtDate(item.createdAt)}
@@ -151,7 +116,7 @@ import { Text, View } from "../../../components/Themed";
           ) : (
             <>
               <TouchableOpacity onPress={() => setBasketClicked(!basketClicked)}>
-                <BlockDatalikeInvestmentPage
+                <InvestmentOrderList
                   basketClicked={basketClicked}
                   key={keyForRenderItems}
                   date={portfolioBoughtDate(fundNameGotClicked.createdAt)}
@@ -166,7 +131,7 @@ import { Text, View } from "../../../components/Themed";
               {fundNameGotClicked &&
                 investmentBasketTypeOfData.map((item, index) => (
                   <React.Fragment key={index}>
-                    <DetailsToShowInKeyValue
+                    <InvestmentDetails
                       detailsName={item}
                       value={fundNameGotClicked}
                     />
@@ -224,5 +189,5 @@ import { Text, View } from "../../../components/Themed";
     },
   });
   
-  export default InvestmentOrderScreen;
+  export default InvestmentOrdersScreen;
   

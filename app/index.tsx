@@ -6,21 +6,12 @@ import { RootState } from "../global/store";
 import { Auth, Hub } from "aws-amplify";
 import { removeAuth, setAuth } from "../global/slices/auth";
 import { removeProfile, setProfile } from "../global/slices/profile";
-import { useFonts } from "expo-font";
 
 const Main = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isValid);
 
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const [fontsLoaded, fontLoadError] = useFonts({
-    'gilroy-regular': require("../assets/fonts/Gilroy-Regular.ttf"),
-    'gilroy-medium': require("../assets/fonts/Gilroy-Medium.ttf"),
-    'gilroy-bold': require("../assets/fonts/Gilroy-Bold.ttf"),
-  });
-
-  if (!fontsLoaded) return null;
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -94,7 +85,7 @@ const Main = () => {
   }
 
   if (isAuthenticated) {
-    return <Redirect href="/funds" />;
+    return <Redirect href="/baskets" />;
   }
 
   return <Redirect href="/register" />;

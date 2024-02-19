@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, Text, View} from 'react-native'
 interface dataProps{
     data: any
 }
-const HoldingData = ({data}: dataProps) => {
+const HoldingInvestmentData = ({data}: dataProps) => {
     const columns = Object.keys(data);
     const renderItem = ({ item }: any) => (
       <View style={styles.column}>
@@ -50,4 +50,4 @@ const HoldingData = ({data}: dataProps) => {
       fontSize:12, fontWeight:"400" ,width:80 ,height:14, color: '#FFFFFF'
     }
   });
-export default HoldingData
+export default HoldingInvestmentData

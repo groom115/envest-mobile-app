@@ -56,24 +56,30 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    Gilroy: require('../assets/fonts/Gilroy-Regular.ttf'),
+  const [fontsLoaded, fontLoadError] = useFonts({
+    'gilroy-regular': require("../assets/fonts/Gilroy-Regular.ttf"),
+    'gilroy-medium': require("../assets/fonts/Gilroy-Medium.ttf"),
+    'gilroy-bold': require("../assets/fonts/Gilroy-Bold.ttf"),
     ...FontAwesome.font,
   });
 
+  if (!fontsLoaded) return null;
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+    if (fontLoadError){
+      console.error(fontLoadError);
+    };
+  }, [fontLoadError]);
 
-  if(loaded){
+  if(fontsLoaded){
     SplashScreen.hideAsync();
   }
 
   return (
     <>
       {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {loaded && <RootLayoutNav />}
+      {fontsLoaded && <RootLayoutNav />}
     </>
   );
 }

@@ -16,9 +16,9 @@ export default function TabLayout() {
           }
       }}>
       <Tabs.Screen
-        name="funds"
+        name="baskets"
         options={{
-          title: "Funds",
+          title: "Baskets",
           tabBarIcon: ({ focused }) => <Fontisto name="pie-chart-2" size={22} color={focused?"#FFD76F": "#979797"} />,
         }}
       />

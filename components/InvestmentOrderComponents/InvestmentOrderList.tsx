@@ -4,7 +4,7 @@ import { Text, View } from "../Themed";
 import images from "../../constants/images";
 import { dataPropsOfBlockDatalikeInvestmentPage } from "../../model/transaction";
 
-const BlockDatalikeInvestmentPage = ({ basketClicked, date, fundName, amountInvestedInFund, completed} : dataPropsOfBlockDatalikeInvestmentPage) => {
+const InvestmentOrderList = ({ basketClicked, date, fundName, amountInvestedInFund, completed} : dataPropsOfBlockDatalikeInvestmentPage) => {
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
 })
-export default BlockDatalikeInvestmentPage;
+export default InvestmentOrderList;

@@ -1,22 +1,24 @@
 import React, { useRef } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import GenericBottomSheet from "../../components/GenericComponents/GenericBottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import GenericHeader from "../../components/GenericComponents/GenericHeader";
+import { useSelector } from "react-redux";
+import { RootState } from "../../global/store";
 
-const HoldingDetail = () => {
+const HoldingDetailsScreen = () => {
   const router = useRouter();
   const investBottomSheetRef = useRef<BottomSheetModal>(null);
   const params = useLocalSearchParams();
   const investment = JSON.parse(params.investment as any);
+  const {name: customerName}=useSelector((state: RootState)=> state.profile)
 
   const title = () => {
     return (
       <View style={{ marginTop: 28, paddingHorizontal: 16 }}>
-        <Text style={styles.titleText1}>Investment Details</Text>
+        <Text style={styles.titleText1}>Holding Details</Text>
         <Text style={styles.titleText3}>{params.basket}</Text>
       </View>
     );
@@ -27,7 +29,7 @@ const HoldingDetail = () => {
       <View style={styles.bottomSheetCont}>
         <View>
           <Text style={styles.investBottomSheetText1}>
-            Hey <Text style={{ color: "#FFD76F" }}>Krishna</Text>
+            Hey <Text style={{ color: "#FFD76F" }}>{customerName}</Text>
           </Text>
           <Text style={styles.investBottomSheetText1}>
             Would you like to start a SIP or invest one-time?
@@ -180,7 +182,7 @@ const HoldingDetail = () => {
           style={styles.tabBut}
           activeOpacity={0.7}
           onPress={() => {
-            router.replace("investments/sell");
+            router.replace("/sell");
           }}
         >
           <Text style={styles.tabText}>Sell</Text>
@@ -351,4 +353,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HoldingDetail;
+export default HoldingDetailsScreen;

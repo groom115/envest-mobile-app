@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, TouchableOpacity, Image, Animated } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Text, View } from '../Themed';
-import ShowDataRowWise from './Investment-order-DetailandCharges';
+import InvestmentOrderRowWiseData from './InvestmentOrderRowWiseData';
 import images from '../../constants/images';
-import HoldingData from './Investment-order-holding';
+import HoldingInvestmentData from './HoldingInvestmentData';
 import { chargesProp, dataPropsOfDetailsToShowInKeyValue, detailsProp, holdingProp } from '../../model/transaction';
 
-const DetailsToShowInKeyValue = ({detailsName,value}: dataPropsOfDetailsToShowInKeyValue) => {
+const InvestmentDetails = ({detailsName,value}: dataPropsOfDetailsToShowInKeyValue) => {
     const [details, setDetails] = useState(false);
     const [holdings, setHoldings] = useState(false);
     const [charges, setCharges] = useState(false);
@@ -104,18 +104,18 @@ const DetailsToShowInKeyValue = ({detailsName,value}: dataPropsOfDetailsToShowIn
                         </View>
         </TouchableOpacity>
         {details && (
-            <ShowDataRowWise data={valueForDetails} />
+            <InvestmentOrderRowWiseData data={valueForDetails} />
         )}
         {holdings && (
-            <HoldingData data={valueForHolding} />
+            <HoldingInvestmentData data={valueForHolding} />
             )}
         {charges && (
-            <ShowDataRowWise data={valueForCharges} />
+            <InvestmentOrderRowWiseData data={valueForCharges} />
         )}
         </View>
     )
 }
-export default DetailsToShowInKeyValue;
+export default InvestmentDetails;
 const styles = StyleSheet.create({
     container: {
         marginTop: 10,

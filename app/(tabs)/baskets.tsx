@@ -1,6 +1,5 @@
 import {
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,7 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import images from "../../constants/images";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import PieChart from "react-native-pie-chart";
 import InvestmentModel from "../../components/HomeScreenComponents/InvestmentModel";
 import PortfolioSelect from "../../components/HomeScreenComponents/PortfolioSelect";
@@ -25,7 +24,7 @@ import { setWallet } from "../../global/slices/wallet";
 
 interface AppProps {}
 
-const FundsScreen: React.FC<AppProps> = () => {
+const BasketsScreen: React.FC<AppProps> = () => {
   const [getInvestmentModel, setInvestmentModel] = useState<string>("SIP");
   const [amount, setAmount] = useState<number>(50);
   const [getStockType, setStockType] = useState<string>(
@@ -318,7 +317,7 @@ const FundsScreen: React.FC<AppProps> = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          router.push(`/portfolio/${slug}`);
+          router.push(`/basket/${slug}`);
         }}
         style={styles.fund}
         activeOpacity={1}
@@ -691,4 +690,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FundsScreen;
+export default BasketsScreen;

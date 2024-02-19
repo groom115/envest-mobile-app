@@ -163,7 +163,7 @@ const ProfileScreen = () => {
           false,
           images.verified,
           "",
-          () => router.push("/profile/investment-order")
+          () => router.push("/profile/investment-orders")
         )}
       </View>
     );

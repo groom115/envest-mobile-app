@@ -8,7 +8,7 @@ const SipServices = {
       const response = await envestBackend.get(SIP_URLS.GET_SIP(userId));
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
   },

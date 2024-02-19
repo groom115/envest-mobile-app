@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -7,26 +7,25 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import images from "../../../constants/images";
+import { useLocalSearchParams } from "expo-router";
+import images from "../../constants/images";
 import {
   MaterialIcons,
   FontAwesome5,
   MaterialCommunityIcons,
   Ionicons,
 } from "@expo/vector-icons";
-import BottomSheet, {
+import {
   BottomSheetModal,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import GenericBottomSheet from "../../../components/GenericComponents/GenericBottomSheet";
-import GenericHeader from "../../../components/GenericComponents/GenericHeader";
+import GenericBottomSheet from "../../components/GenericComponents/GenericBottomSheet";
+import GenericHeader from "../../components/GenericComponents/GenericHeader";
 
-const SipDetail = () => {
+const SipDetailsScreen = () => {
   const params = useLocalSearchParams();
   const sip = JSON.parse(params.sip as any);
-  console.log(sip);
   const cancelSipBottomSheetRef = useRef<BottomSheetModal>(null);
   const editSipBottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -650,4 +649,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SipDetail;
+export default SipDetailsScreen;

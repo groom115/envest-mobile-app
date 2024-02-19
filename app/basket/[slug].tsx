@@ -16,7 +16,6 @@ import Rebalancing from "../../components/PortfolioComponents/Rebalancing";
 import Investment from "../../components/PortfolioComponents/Investment";
 import FundDetails from "../../components/PortfolioComponents/FundDetails";
 import TaxImplication from "../../components/PortfolioComponents/TaxImplication";
-import { useRouter } from "expo-router";
 import { envestBackend } from "../../api";
 import PriceGraph from "../../components/PortfolioComponents/PriceGraph";
 import { ChartData, Portfolio } from "../../model/basket";
@@ -26,8 +25,9 @@ import {
   PORTFOLIO_BLUECHIP_SECTOR_ANALYSIS,
   PORTFOLIO_STABLE_FUND_ANALYSIS,
 } from "../../constants/portfolioConstant";
+import GenericHeader from "../../components/GenericComponents/GenericHeader";
 
-const BlueChipScreen = () => {
+const BasketDetailsScreen = () => {
   const [portfolioData, setPortfolioData] = useState<Portfolio | null>(null);
   const [chartData, setChartData] = useState<ChartData[] | null>(null);
   const { slug } = useLocalSearchParams();
@@ -47,40 +47,6 @@ const BlueChipScreen = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const heading = () => {
-    const router = useRouter();
-    return (
-      <View style={styles.heading}>
-        <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-          <TouchableOpacity
-            onPress={() => {
-              router.back();
-            }}
-            activeOpacity={0.7}
-          >
-            <Image
-              source={images.arrowLeft}
-              alt="back"
-              style={{ height: 24, width: 24 }}
-            />
-          </TouchableOpacity>
-
-          <Text style={styles.welcome}>envest</Text>
-        </View>
-        <View>
-          <TouchableOpacity style={{ display: "flex", flexDirection: "row" }}>
-            <Image
-              source={images.help}
-              style={{ width: 20, height: 20 }}
-              alt="help"
-            />
-            <Text style={styles.help}>Help</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
 
   const priceGraph = () => {
     return chartData && <PriceGraph chartData={chartData} />;
@@ -501,7 +467,9 @@ const BlueChipScreen = () => {
     <View style={{ flex: 1, position: "relative" }}>
       <ScrollView style={styles.container}>
         <View>
-          {heading()}
+          <View style={{ paddingHorizontal: 16 }}>
+            <GenericHeader showLogo/>
+          </View>
           {portfolioContent()}
           {priceGraph()}
           {cryptoDistribution()}
@@ -698,4 +666,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BlueChipScreen;
+export default BasketDetailsScreen;
