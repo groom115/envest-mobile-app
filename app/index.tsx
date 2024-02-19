@@ -1,21 +1,29 @@
-import React, { useEffect } from 'react';
-import {Redirect, useRouter} from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../global/store';
-import { Auth, Hub } from 'aws-amplify';
-import { removeAuth, setAuth } from '../global/slices/auth';
-import { removeProfile, setProfile } from '../global/slices/profile';
+import React, { useEffect } from "react";
+import { Redirect, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../global/store";
+import { Auth, Hub } from "aws-amplify";
+import { removeAuth, setAuth } from "../global/slices/auth";
+import { removeProfile, setProfile } from "../global/slices/profile";
+import { useFonts } from "expo-font";
 
 const Main = () => {
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isValid);
 
-  const isAuthenticated=useSelector((state: RootState)=> state.auth.isValid);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-  const router=useRouter();
-  const dispatch=useDispatch();
+  const [fontsLoaded, fontLoadError] = useFonts({
+    'gilroy-regular': require("../assets/fonts/Gilroy-Regular.ttf"),
+    'gilroy-medium': require("../assets/fonts/Gilroy-Medium.ttf"),
+    'gilroy-bold': require("../assets/fonts/Gilroy-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) return null;
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
         case "signIn":
           // setAuth({})
@@ -42,50 +50,54 @@ const Main = () => {
           accessToken: currentUser.signInUserSession.accessToken.jwtToken,
           refreshToken: currentUser.signInUserSession.refreshToken.jwtToken,
           idToken: currentUser.signInUserSession.idToken.jwtToken,
-          isValid: true
-      }));
+          isValid: true,
+        })
+      );
       dispatch(
         setProfile({
-          email:currentUser.attributes["email"],
+          email: currentUser.attributes["email"],
           emailVerified: currentUser.attributes["email_verified"],
           userId: currentUser.attributes["sub"],
           name: currentUser.attributes["custom:name"],
-          kycVerified: currentUser.attributes["custom:kycVerified"] == "Y" ? true : false,
-          bankVerified: currentUser.attributes["custom:bankVerified"] == "Y" ? true : false,
-          phone: currentUser.attributes["custom:phone"]
-      }));
-    } catch(error) {
+          kycVerified:
+            currentUser.attributes["custom:kycVerified"] == "Y" ? true : false,
+          bankVerified:
+            currentUser.attributes["custom:bankVerified"] == "Y" ? true : false,
+          phone: currentUser.attributes["custom:phone"],
+        })
+      );
+    } catch (error) {
       console.error(error);
       console.log("Not signed in");
     }
   };
 
-    const checkUserOnboarding = async () => {
-      try{
-        const userOnboarding = await AsyncStorage.getItem('user-onboarding');
-        return userOnboarding;
-      } catch(err){
-        console.error(err);
-      }
+  const checkUserOnboarding = async () => {
+    try {
+      const userOnboarding = await AsyncStorage.getItem("user-onboarding");
+      return userOnboarding;
+    } catch (err) {
+      console.error(err);
     }
+  };
 
-    let ifUserOnboarded=true
+  let ifUserOnboarded = true;
 
-    checkUserOnboarding().then((userOnboarded) => {
-      if(userOnboarded!=='true'){
-        ifUserOnboarded=false
-      }
-    })
-
-    if(!ifUserOnboarded){
-        return <Redirect href="/onboarding"/>
+  checkUserOnboarding().then((userOnboarded) => {
+    if (userOnboarded !== "true") {
+      ifUserOnboarded = false;
     }
+  });
 
-    if(isAuthenticated){
-      return <Redirect href="/funds" />
-    }
+  if (!ifUserOnboarded) {
+    return <Redirect href="/onboarding" />;
+  }
 
-    return <Redirect href="/register"/>
-}
+  if (isAuthenticated) {
+    return <Redirect href="/funds" />;
+  }
 
-export default Main
+  return <Redirect href="/register" />;
+};
+
+export default Main;
